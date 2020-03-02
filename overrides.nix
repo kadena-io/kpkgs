@@ -1,12 +1,9 @@
-pkgs: self: super: with pkgs.haskell.lib;
-let guardGhcjs = p: if self.ghc.isGhcjs or false then null else p;
+self: super:
+let
+    pkgs = self.callPackage ({ pkgs }: pkgs) {};
+    guardGhcjs = p: if self.ghc.isGhcjs or false then null else p;
     whenGhcjs = f: p: if self.ghc.isGhcjs or false then (f p) else p;
-    callHackageDirect = {pkg, ver, sha256}@args:
-      let pkgver = "${pkg}-${ver}";
-      in self.callCabal2nix pkg (pkgs.fetchzip {
-           url = "http://hackage.haskell.org/package/${pkgver}/${pkgver}.tar.gz";
-           inherit sha256;
-         }) {};
+    callHackageDirect = args: self.callHackageDirect args {};
 
     # includes servant-jsaddle (needed for chainweaver)
     servantSrc = pkgs.fetchFromGitHub {
@@ -15,18 +12,23 @@ let guardGhcjs = p: if self.ghc.isGhcjs or false then null else p;
       rev = "925d50d7526a9b95918b7a2d49e57afa10985302";
       sha256 = "0zzchj9pc9y50acvj8zbm94bgbvbxzxz2b0xd2zbck90bribwm5b";
     };
-
-in
-
-{
-  # Chainweb Overrides
+in with pkgs.haskell.lib; {
   Glob = whenGhcjs dontCheck super.Glob;
 
-  aeson = dontCheck (callHackageDirect {
-    pkg = "aeson";
-    ver = "1.4.5.0";
-    sha256 = "0imcy5kkgrdrdv7zkhkjvwpdp4sms5jba708xsap1vl9c2s63n5a";
-  });
+  aeson = if self.ghc.isGhcjs or false
+    then dontCheck (self.callCabal2nix "aeson" (pkgs.fetchFromGitHub {
+        owner = "obsidiansystems";
+        repo = "aeson";
+        rev = "d6288c431a477f9a6e93aa80454a9e1712127548"; # branch v1450-text-jsstring containing (ToJSVal Value) instance and other fixes
+        sha256 = "102hj9b42z1h9p634g9226nvs756djwadrkz9yrb15na671f2xf4";
+      }) {})
+    else enableCabalFlag (dontCheck (callHackageDirect {
+        pkg = "aeson";
+        ver = "1.4.5.0";
+        sha256 = "0imcy5kkgrdrdv7zkhkjvwpdp4sms5jba708xsap1vl9c2s63n5a";
+      })) "cffi";
+
+  ## Pact Overrides ##
 
   algebraic-graphs = whenGhcjs dontCheck super.algebraic-graphs;
   base-compat-batteries = whenGhcjs dontCheck super.base-compat-batteries;
@@ -37,21 +39,16 @@ in
   haskeline = guardGhcjs super.haskeline;
   http-date = whenGhcjs dontCheck super.http-date;
   http-media = whenGhcjs dontCheck super.http-media;
-  http2 = whenGhcjs dontCheck super.http2;
   inspection-testing = guardGhcjs super.inspection-testing;
   intervals = whenGhcjs dontCheck super.intervals;
   iproute = whenGhcjs dontCheck super.iproute;
-  lens-aeson = whenGhcjs dontCheck super.lens-aeson;
   memory = whenGhcjs dontCheck super.memory;
-  network-byte-order = whenGhcjs dontCheck super.network-byte-order;
   prettyprinter-ansi-terminal = whenGhcjs dontCheck super.prettyprinter-ansi-terminal;
   prettyprinter-convert-ansi-wl-pprint = whenGhcjs dontCheck super.prettyprinter-convert-ansi-wl-pprint;
   tdigest = whenGhcjs dontCheck super.tdigest;
   temporary = whenGhcjs dontCheck super.temporary;
   text-short = whenGhcjs dontCheck super.text-short; # either hang or take a long time
   unix-time = whenGhcjs dontCheck super.unix-time;
-  wai-app-static = whenGhcjs dontCheck super.wai-app-static;
-  wai-extra = whenGhcjs dontCheck super.wai-extra;
 
   base-orphans = dontCheck (callHackageDirect {
     pkg = "base-orphans";
@@ -95,11 +92,24 @@ in
     sha256 = "1isa8p9dnahkljwj0kz10119dwiycf11jvzdc934lnjv1spxkc9k";
   });
 
-  singleton-bool = dontCheck (callHackageDirect {
-    pkg = "singleton-bool";
-    ver = "0.1.5";
-    sha256 = "1kjn5wgwgxdw2xk32d645v3ss2a70v3bzrihjdr2wbj2l4ydcah1";
-  });
+  # https://github.com/reflex-frp/reflex-platform/issues/549
+  singleton-bool =
+    if self.ghc.isGhcjs or false
+    then overrideCabal (self.callCabal2nix "singleton-bool" (pkgs.fetchFromGitHub {
+        owner = "obsidiansystems";
+        repo = "singleton-bool";
+        rev = "bf5c81fff6eaa9ed1286de9d0ecfffa7e0aa85d2";
+        sha256 = "0fzi6f5pl2gg9k8f7k88qyyvjflpcw08905y0vjmbylzc70wsykw";
+      }) {})
+      (drv: {
+        editedCabalFile = null;
+        revision = null;
+      })
+    else dontCheck (callHackageDirect {
+        pkg = "singleton-bool";
+        ver = "0.1.5";
+        sha256 = "1kjn5wgwgxdw2xk32d645v3ss2a70v3bzrihjdr2wbj2l4ydcah1";
+      });
 
   servant = dontCheck (self.callCabal2nix "servant" "${servantSrc}/servant" {});
   servant-client = dontCheck (self.callCabal2nix "servant-client" "${servantSrc}/servant-client" {});
@@ -150,7 +160,13 @@ in
     sha256 = "16xpq9qb1ipl0mb86rlb3bx29xvgcwirpm2ds0ynxjh0ylwzavkk";
   });
 
-  # Chainweb Overrides
+  hspec-golden = dontCheck (callHackageDirect {
+    pkg = "hspec-golden";
+    ver = "0.1.0.1";
+    sha256 = "1fplsb3rb6f3w20cncr0zrjpf7x4kc3njy8l016p5wxxh3hkgdrs";
+  });
+
+  ## Chainweb Overrides ##
   chainweb-storage = dontCheck (self.callCabal2nix "chainweb-storage" (pkgs.fetchFromGitHub {
     owner = "kadena-io";
     repo = "chainweb-storage";
@@ -206,6 +222,12 @@ in
     sha256 = "1hnwvhz9w07z2mlq75iz0bysz586d828725k1bx8mjqvc86ncv8m";
   };
 
+  random-strings = callHackageDirect {
+    pkg = "random-strings";
+    ver = "0.1.1.0";
+    sha256 = "1d70i6hcdxrjnk05x0525lmb8wqzy9n0ipr8qd9fxpba89w24jc5";
+  };
+
   rocksdb-haskell = dontCheck super.rocksdb-haskell;
 
   scheduler = callHackageDirect {
@@ -234,19 +256,73 @@ in
 
   tls = callHackageDirect {
     pkg = "tls";
-    ver = "1.5.2";
-    sha256 = "00bps2bmp3ahlfw6wf7ifnni8kn306bbzapqcgsallnpgzx62gp1";
+    ver = "1.5.3";
+    sha256 = "1785i2ba4xvqz9k32qn74vk6zwplmj77dz8jqykndb0g79hq1f27";
   };
 
-  warp-tls = callHackageDirect {
-    pkg = "warp-tls";
-    ver = "3.2.8";
-    sha256 = "0bf6gnyz9pq57y3hgv1xpfi1cnsda0wrwyd18zmh2220hxmvda71";
+  tls-session-manager = callHackageDirect {
+    pkg = "tls-session-manager";
+    ver = "0.0.4";
+    sha256 = "03jr0xmzl5bqjw2l59bcpfclji6g4rky8ji86mg60jg7nia5d5l8";
   };
+
+  wai = dontCheck (callHackageDirect {
+    pkg = "wai";
+    ver = "3.2.2.1";
+    sha256 = "0msyixvsk37qsdn3idqxb4sab7bw4v9657nl4xzrwjdkihy411jf";
+  });
+
+  wai-cors = dontCheck (callHackageDirect {
+    pkg = "wai-cors";
+    ver = "0.2.7";
+    sha256 = "10yhjjkzp0ichf9ijiadliafriwh96f194c2g02anvz451capm6i";
+  });
+
+  wai-middleware-throttle = dontCheck (callHackageDirect {
+    pkg = "wai-middleware-throttle";
+    ver = "0.3.0.1";
+    sha256 = "13pz31pl7bk51brc88jp0gffjx80w35kzzrv248w27d7dc8xc63x";
+  });
+
+  wai-extra = whenGhcjs dontCheck (callHackageDirect {
+    pkg = "wai-extra";
+    ver = "3.0.28";
+    sha256 = "1k470vbn2c852syj15m9xzfjnaraw6cyn35ajf2b67i01ghkshgw";
+  });
+
+  wai-app-static = doJailbreak (whenGhcjs dontCheck (callHackageDirect {
+    pkg = "wai-app-static";
+    ver = "3.1.6.3";
+    sha256 = "00dzhv3cdkmxgid34y7bbrkp9940pcmr2brhl2wal7kp0y999ldp";
+  }));
+
+  time-manager = callHackageDirect {
+    pkg = "time-manager";
+    ver = "0.0.0";
+    sha256 = "0z2fxikx5ax2x5bg8mcjg4y6b6irmf0swrnfprrp2xry6j5ji6hx";
+  };
+
+  network-byte-order = whenGhcjs dontCheck (callHackageDirect {
+    pkg = "network-byte-order";
+    ver = "0.1.2.0";
+    sha256 = "1a2kq8rmx5q3l1a3b3jcklm7hy3c3z0x08jnnwfik22sy5a5v2nr";
+  });
 
   strict-tuple = callHackageDirect {
     pkg = "strict-tuple";
     ver = "0.1.3";
     sha256 = "1vg0m27phd6yf0pszcy2c2wbqx509fr9gacn34yja521z17cxd8z";
+  };
+
+  lens-aeson = whenGhcjs dontCheck (callHackageDirect {
+    pkg = "lens-aeson";
+    ver = "1.1";
+    sha256 = "0bx7ay7dx6ljhy1a6bmjdz52vfwmx8af8sd96p38yc0m9irjz02h";
+  });
+
+  streaming-concurrency = callHackageDirect {
+    pkg = "streaming-concurrency";
+    ver = "0.3.1.3";
+    sha256 = "11mgp53kpdnjnrx3l8z6nhm48rhl5i0sgn0vydqa488xinj3h28a";
   };
 }

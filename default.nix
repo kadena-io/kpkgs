@@ -1,13 +1,15 @@
-{ rpRef ? "9afc9a2a1864e5a89981a4959a88c646e7441549"
-, rpSha ? "0rkc6h4mfi5j4d4735b0l7ic6dvww4vdxjwd3kninj5rjlkddhfd"
+{ rpRef ? "dfac4599b37bbfdb754afa32d25ba4832623277a"
+, rpSha ? "03hicg0x77nz4wmwaxnlwf9y0xbypjjdzg3hak756m1qq8vpgc17"
 , system ? builtins.currentSystem
 }:
 
-let rpSrc = builtins.fetchTarball {
+let
+rpSrc = builtins.fetchTarball {
   url = "https://github.com/reflex-frp/reflex-platform/archive/${rpRef}.tar.gz";
   sha256 = rpSha;
 };
-overlay = self: super: {
+
+z3 = self: super: {
   z3 = super.z3.overrideAttrs (drv: {
     name = "z3-4.8.5";
     version = "4.8.5";
@@ -20,26 +22,26 @@ overlay = self: super: {
     };
   });
 };
-rp = import rpSrc { inherit system; nixpkgsOverlays = [ overlay ]; };
-in {
-  inherit rpRef rpSha rpSrc overlay rp;
-  proj =
-    rp.project ({ pkgs, hackGet, ... }:
-    {
-      name = "pact";
-      overrides = self: super: (import ./overrides.nix pkgs hackGet self super) // {
-      };
-      packages = {
-        pact = gitignore.gitignoreSource [".git" ".gitlab-ci.yml" "CHANGELOG.md" "README.md"] ./.;
-      };
-      shellToolOverrides = ghc: super: {
-        z3 = pkgs.z3;
-        stack = pkgs.stack;
-      };
-      shells = {
-        ghc = ["pact"];
-        ghcjs = ["pact"];
-      };
 
-    });
+haskellPkgs = import ./overrides.nix;
+
+reflex-platform-func = args: import rpSrc (args // {
+  nixpkgsOverlays = (args.nixpkgsOverlays or []) ++ [z3];
+  haskellOverlays = (args.haskellOverlays or []) ++ [haskellPkgs];
+});
+
+rp = reflex-platform-func {};
+
+pkgs = rp.nixpkgs;
+
+gitignoreSrc = pkgs.fetchFromGitHub {
+  owner = "hercules-ci";
+  repo = "gitignore";
+  rev = "f9e996052b5af4032fe6150bba4a6fe4f7b9d698";
+  sha256 = "0jrh5ghisaqdd0vldbywags20m2cxpkbbk5jjjmwaw0gr8nhsafv";
+};
+
+in {
+  inherit reflex-platform-func rp pkgs;
+  inherit (import gitignoreSrc { inherit (pkgs) lib; }) gitignoreSource;
 }
