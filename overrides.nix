@@ -6,16 +6,10 @@ let
     callHackageDirect = args: self.callHackageDirect args {};
 
     repos = {
+      chainweb-node = hackGet ./dep/chainweb-node;
       pact = hackGet ./dep/pact;
     };
 
-    # includes servant-jsaddle (needed for chainweaver)
-    servantSrc = pkgs.fetchFromGitHub {
-      owner = "haskell-servant";
-      repo = "servant";
-      rev = "925d50d7526a9b95918b7a2d49e57afa10985302";
-      sha256 = "0zzchj9pc9y50acvj8zbm94bgbvbxzxz2b0xd2zbck90bribwm5b";
-    };
 in with pkgs.haskell.lib; {
   Glob = whenGhcjs dontCheck super.Glob;
 
@@ -96,6 +90,13 @@ in with pkgs.haskell.lib; {
     sha256 = "1isa8p9dnahkljwj0kz10119dwiycf11jvzdc934lnjv1spxkc9k";
   });
 
+
+  semialign = callHackageDirect {
+    pkg = "semialign";
+    ver = "1";
+    sha256 = "0cwl7s62sbh3g1ys1lbsp76hz27admylk3prg5gjrqnx4ic9cap6";
+  };
+
   # https://github.com/reflex-frp/reflex-platform/issues/549
   singleton-bool =
     if self.ghc.isGhcjs or false
@@ -115,10 +116,29 @@ in with pkgs.haskell.lib; {
         sha256 = "1kjn5wgwgxdw2xk32d645v3ss2a70v3bzrihjdr2wbj2l4ydcah1";
       });
 
-  servant = dontCheck (self.callCabal2nix "servant" "${servantSrc}/servant" {});
-  servant-client = dontCheck (self.callCabal2nix "servant-client" "${servantSrc}/servant-client" {});
-  servant-client-core = dontCheck (self.callCabal2nix "servant-client-core" "${servantSrc}/servant-client-core" {});
-  servant-server = dontCheck (self.callCabal2nix "servant-server" "${servantSrc}/servant-server" {});
+  servant = dontCheck (callHackageDirect {
+    pkg = "servant";
+    ver = "0.16.2";
+    sha256 = "1a83fdcwnlkmyc6fqsrfd26izcgk1jgpdgyqma3l897cnnr62frs";
+  });
+
+  servant-client = dontCheck (callHackageDirect {
+    pkg = "servant-client";
+    ver = "0.16.0.1";
+    sha256 = "1236sldcgvk2zj20cxib9yxrdxz7d1a83jfdnn9mxa272srfq9a9";
+  });
+
+  servant-client-core = dontCheck (callHackageDirect {
+    pkg = "servant-client-core";
+    ver = "0.16";
+    sha256 = "0panxplcjslsvqxvsabn2fy0fhcqmmr0dqj51hk7bk7yyvgwxklf";
+  });
+
+  servant-server = dontCheck (callHackageDirect {
+    pkg = "servant-server";
+    ver = "0.16.2";
+    sha256 = "1klcszpfqy1vn3q1wbqxjghfyddw8wbg4f0ggllqw8qx2f5zp5y1";
+  });
 
   servant-swagger = dontCheck (callHackageDirect {
     pkg = "servant-swagger";
@@ -206,6 +226,12 @@ in with pkgs.haskell.lib; {
     pkg = "hedgehog-fn";
     ver = "1.0";
     sha256 = "1dhfyfycy0wakw4j7rr01a7v70yms7dw3h60k5af7pi9v700wyb4";
+  };
+
+  http2 = callHackageDirect {
+    pkg = "http2";
+    ver = "2.0.3";
+    sha256 = "14bqmxla0id956y37fpfx9v6crwxphbfxkl8v8annrs8ngfbhbr7";
   };
 
   massiv = callHackageDirect {
@@ -300,6 +326,18 @@ in with pkgs.haskell.lib; {
     sha256 = "00dzhv3cdkmxgid34y7bbrkp9940pcmr2brhl2wal7kp0y999ldp";
   }));
 
+  warp = dontCheck (callHackageDirect {
+    pkg = "warp";
+    ver = "3.3.6";
+    sha256 = "044w7ajkqlwnrpzc4zaqy284ac9wsklyby946jgfpqyjbj87985x";
+  });
+
+  warp-tls = callHackageDirect {
+    pkg = "warp-tls";
+    ver = "3.2.10";
+    sha256 = "1zgr83zkb3q4qa03msfnncwxkmvk63gd8sqkbbd1cwhvjragn4mz";
+  };
+
   time-manager = callHackageDirect {
     pkg = "time-manager";
     ver = "0.0.0";
@@ -331,5 +369,6 @@ in with pkgs.haskell.lib; {
   };
 
   # kadena packages
+  chainweb = dontCheck (self.callCabal2nix "chainweb" repos.chainweb-node {});
   pact = addBuildDepend (self.callCabal2nix "pact" repos.pact {}) pkgs.z3;
 }
