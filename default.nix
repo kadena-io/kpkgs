@@ -1,13 +1,7 @@
-{ rpRef ? "dfac4599b37bbfdb754afa32d25ba4832623277a"
-, rpSha ? "03hicg0x77nz4wmwaxnlwf9y0xbypjjdzg3hak756m1qq8vpgc17"
-, system ? builtins.currentSystem
+{ system ? builtins.currentSystem
 }:
 
 let
-rpSrc = builtins.fetchTarball {
-  url = "https://github.com/reflex-frp/reflex-platform/archive/${rpRef}.tar.gz";
-  sha256 = rpSha;
-};
 
 z3 = self: super: {
   z3 = super.z3.overrideAttrs (drv: {
@@ -25,7 +19,7 @@ z3 = self: super: {
 
 haskellOverlay = import ./overrides.nix { inherit (rp) hackGet; };
 
-reflex-platform-func = args: import rpSrc (args // {
+reflex-platform-func = args: import ./dep/reflex-platform (args // {
   nixpkgsOverlays = (args.nixpkgsOverlays or []) ++ [z3];
   haskellOverlays = (args.haskellOverlays or []) ++ [haskellOverlay];
 });
