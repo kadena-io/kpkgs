@@ -55,4 +55,5 @@ in {
   inherit reflex-platform-func rp pkgs haskellPackages;
   inherit (rp) hackGet;
   inherit (import gitignoreSrc { inherit (pkgs) lib; }) gitignoreSource;
+  ghc865 = haskellPackages "ghc865";
 }
