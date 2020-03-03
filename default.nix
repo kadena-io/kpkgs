@@ -23,11 +23,11 @@ z3 = self: super: {
   });
 };
 
-haskellPkgs = import ./overrides.nix;
+haskellOverlay = import ./overrides.nix;
 
 reflex-platform-func = args: import rpSrc (args // {
   nixpkgsOverlays = (args.nixpkgsOverlays or []) ++ [z3];
-  haskellOverlays = (args.haskellOverlays or []) ++ [haskellPkgs];
+  haskellOverlays = (args.haskellOverlays or []) ++ [haskellOverlay];
 });
 
 rp = reflex-platform-func {};
@@ -41,7 +41,18 @@ gitignoreSrc = pkgs.fetchFromGitHub {
   sha256 = "0jrh5ghisaqdd0vldbywags20m2cxpkbbk5jjjmwaw0gr8nhsafv";
 };
 
+overrideHaskellPackages = orig: {
+  buildHaskellPackages =
+    orig.buildHaskellPackages.override overrideHaskellPackages;
+  overrides = if orig ? overrides
+              then pkgs.lib.composeExtensions orig.overrides haskellOverlay
+              else haskellOverlay;
+};
+
+haskellPackages = compiler: pkgs.haskell.packages.${compiler}.override overrideHaskellPackages;
+
 in {
-  inherit reflex-platform-func rp pkgs;
+  inherit reflex-platform-func rp pkgs haskellPackages;
+  inherit (rp) hackGet;
   inherit (import gitignoreSrc { inherit (pkgs) lib; }) gitignoreSource;
 }
