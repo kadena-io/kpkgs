@@ -1,9 +1,13 @@
-self: super:
+{ hackGet }: self: super:
 let
     pkgs = self.callPackage ({ pkgs }: pkgs) {};
     guardGhcjs = p: if self.ghc.isGhcjs or false then null else p;
     whenGhcjs = f: p: if self.ghc.isGhcjs or false then (f p) else p;
     callHackageDirect = args: self.callHackageDirect args {};
+
+    repos = {
+      pact = hackGet ./dep/pact;
+    };
 
     # includes servant-jsaddle (needed for chainweaver)
     servantSrc = pkgs.fetchFromGitHub {
@@ -325,4 +329,7 @@ in with pkgs.haskell.lib; {
     ver = "0.3.1.3";
     sha256 = "11mgp53kpdnjnrx3l8z6nhm48rhl5i0sgn0vydqa488xinj3h28a";
   };
+
+  # kadena packages
+  pact = addBuildDepend (self.callCabal2nix "pact" repos.pact {}) pkgs.z3;
 }

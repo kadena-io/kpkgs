@@ -23,7 +23,7 @@ z3 = self: super: {
   });
 };
 
-haskellOverlay = import ./overrides.nix;
+haskellOverlay = import ./overrides.nix { inherit (rp) hackGet; };
 
 reflex-platform-func = args: import rpSrc (args // {
   nixpkgsOverlays = (args.nixpkgsOverlays or []) ++ [z3];
