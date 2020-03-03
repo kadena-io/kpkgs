@@ -8,6 +8,7 @@ let
     repos = {
       chainweb-node = hackGet ./dep/chainweb-node;
       pact = hackGet ./dep/pact;
+      signing-api = hackGet ./dep/signing-api;
     };
 
 in with pkgs.haskell.lib; {
@@ -371,4 +372,5 @@ in with pkgs.haskell.lib; {
   # kadena packages
   chainweb = dontCheck (self.callCabal2nix "chainweb" repos.chainweb-node {});
   pact = addBuildDepend (self.callCabal2nix "pact" repos.pact {}) pkgs.z3;
+  signing-api = self.callCabal2nix "signing-api" (repos.signing-api + /kadena-signing-api) {};
 }
