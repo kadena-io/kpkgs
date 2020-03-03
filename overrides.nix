@@ -6,6 +6,7 @@ let
     callHackageDirect = args: self.callHackageDirect args {};
 
     repos = {
+      chainweb-miner = hackGet ./dep/chainweb-miner;
       chainweb-node = hackGet ./dep/chainweb-node;
       pact = hackGet ./dep/pact;
       signing-api = hackGet ./dep/signing-api;
@@ -369,8 +370,40 @@ in with pkgs.haskell.lib; {
     sha256 = "11mgp53kpdnjnrx3l8z6nhm48rhl5i0sgn0vydqa488xinj3h28a";
   };
 
-  # kadena packages
+  ## chainweb-miner ##
+  http-client = callHackageDirect {
+    pkg = "http-client";
+    ver = "0.6.4";
+    sha256 = "0p1khv99488g3c59cv6ckvpm77h40hf92pw8kxk29csblawi2vhf";
+  };
+
+  retry = callHackageDirect {
+    pkg = "retry";
+    ver = "0.8.0.1";
+    sha256 = "1hbmcc4nkvz1xh01ijksf2n7aprgz2imafgj1bjmj9m47np7g2j1";
+  };
+
+  rio = callHackageDirect {
+    pkg = "rio";
+    ver = "0.1.12.0";
+    sha256 = "1mwv1y9mrhmm5wii09f3gvy100zp6k9441mszx630ilz1igmypkn";
+  };
+
+  typed-process = callHackageDirect {
+    pkg = "typed-process";
+    ver = "0.2.5.0";
+    sha256 = "00jgzcqc6n759547ij7s5bfb08q92sq3kfrbzhh5l1ppz5agv9li";
+  };
+
+  unliftio = callHackageDirect {
+    pkg = "unliftio";
+    ver = "0.2.12";
+    sha256 = "1mlvs28mv269vd9j9l67i7w7kwzlh1zm5fm7nqdr7pmhqdr27ybn";
+  };
+
+  ## kadena packages ##
   chainweb = dontCheck (self.callCabal2nix "chainweb" repos.chainweb-node {});
+  chainweb-miner = self.callCabal2nix "chainweb-miner" repos.chainweb-miner {};
   pact = addBuildDepend (self.callCabal2nix "pact" repos.pact {}) pkgs.z3;
   signing-api = self.callCabal2nix "signing-api" (repos.signing-api + /kadena-signing-api) {};
 }
