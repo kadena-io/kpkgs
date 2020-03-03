@@ -35,19 +35,8 @@ gitignoreSrc = pkgs.fetchFromGitHub {
   sha256 = "0jrh5ghisaqdd0vldbywags20m2cxpkbbk5jjjmwaw0gr8nhsafv";
 };
 
-overrideHaskellPackages = orig: {
-  buildHaskellPackages =
-    orig.buildHaskellPackages.override overrideHaskellPackages;
-  overrides = if orig ? overrides
-              then pkgs.lib.composeExtensions orig.overrides haskellOverlay
-              else haskellOverlay;
-};
-
-haskellPackages = compiler: pkgs.haskell.packages.${compiler}.override overrideHaskellPackages;
-
 in {
-  inherit reflex-platform-func rp pkgs haskellPackages;
-  inherit (rp) hackGet;
+  inherit reflex-platform-func rp pkgs;
+  inherit (rp) hackGet ghc8_6 ghcjs8_6;
   inherit (import gitignoreSrc { inherit (pkgs) lib; }) gitignoreSource;
-  ghc865 = haskellPackages "ghc865";
 }
