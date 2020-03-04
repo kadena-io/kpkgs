@@ -405,5 +405,5 @@ in with pkgs.haskell.lib; {
   chainweb = dontCheck (self.callCabal2nix "chainweb" repos.chainweb-node {});
   chainweb-miner = self.callCabal2nix "chainweb-miner" repos.chainweb-miner {};
   pact = addBuildDepend (self.callCabal2nix "pact" repos.pact {}) pkgs.z3;
-  signing-api = self.callCabal2nix "signing-api" (repos.signing-api + /kadena-signing-api) {};
+  kadena-signing-api = self.callCabal2nix "kadena-signing-api" (repos.signing-api + /kadena-signing-api) {};
 }
