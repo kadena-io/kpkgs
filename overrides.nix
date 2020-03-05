@@ -30,7 +30,6 @@ in with pkgs.haskell.lib; {
 
   ## Pact Overrides ##
 
-  algebraic-graphs = whenGhcjs dontCheck super.algebraic-graphs;
   base-compat-batteries = whenGhcjs dontCheck super.base-compat-batteries;
   bound = whenGhcjs dontCheck super.bound;
   bsb-http-chunked = whenGhcjs dontCheck super.bsb-http-chunked;
@@ -39,7 +38,6 @@ in with pkgs.haskell.lib; {
   haskeline = guardGhcjs super.haskeline;
   http-date = whenGhcjs dontCheck super.http-date;
   http-media = whenGhcjs dontCheck super.http-media;
-  inspection-testing = guardGhcjs super.inspection-testing;
   intervals = whenGhcjs dontCheck super.intervals;
   iproute = whenGhcjs dontCheck super.iproute;
   memory = whenGhcjs dontCheck super.memory;
@@ -49,6 +47,13 @@ in with pkgs.haskell.lib; {
   temporary = whenGhcjs dontCheck super.temporary;
   text-short = whenGhcjs dontCheck super.text-short; # either hang or take a long time
   unix-time = whenGhcjs dontCheck super.unix-time;
+  yet-another-logger = markUnbroken super.yet-another-logger;
+
+  algebraic-graphs = whenGhcjs dontCheck (callHackageDirect {
+    pkg = "algebraic-graphs";
+    ver = "0.5";
+    sha256 = "0z8mgzdis72a9zd9x9f185phqr4bx8s06piggis4rlih1rly61nr";
+  });
 
   base-orphans = dontCheck (callHackageDirect {
     pkg = "base-orphans";
@@ -80,6 +85,12 @@ in with pkgs.haskell.lib; {
     sha256 = "1md93iaxsr4djx1i47zjwddd7pd4j3hzphj7495q7lz7mn8ifz4w";
   });
 
+  inspection-testing = guardGhcjs (callHackageDirect {
+    pkg = "inspection-testing";
+    ver = "0.4.2.2";
+    sha256 = "0pis67bwxzn71398bmz5r5w21b3bkm3fxly5ws28w2dp9qkpdh9j";
+  });
+
   megaparsec = dontCheck (callHackageDirect {
     pkg = "megaparsec";
     ver = "7.0.5";
@@ -92,12 +103,12 @@ in with pkgs.haskell.lib; {
     sha256 = "1isa8p9dnahkljwj0kz10119dwiycf11jvzdc934lnjv1spxkc9k";
   });
 
-
-  semialign = callHackageDirect {
+  # Jailbreak because of vector https://github.com/reflex-frp/reflex-platform/blob/develop/haskell-overlays/ghcjs-8.6-text-jsstring.nix#L18
+  semialign = whenGhcjs doJailbreak (callHackageDirect {
     pkg = "semialign";
     ver = "1";
     sha256 = "0cwl7s62sbh3g1ys1lbsp76hz27admylk3prg5gjrqnx4ic9cap6";
-  };
+  });
 
   # https://github.com/reflex-frp/reflex-platform/issues/549
   singleton-bool =
@@ -118,34 +129,12 @@ in with pkgs.haskell.lib; {
         sha256 = "1kjn5wgwgxdw2xk32d645v3ss2a70v3bzrihjdr2wbj2l4ydcah1";
       });
 
-  servant = dontCheck (callHackageDirect {
-    pkg = "servant";
-    ver = "0.16.2";
-    sha256 = "1a83fdcwnlkmyc6fqsrfd26izcgk1jgpdgyqma3l897cnnr62frs";
-  });
+  servant = whenGhcjs dontCheck super.servant;   # doctest
 
   servant-client = dontCheck (callHackageDirect {
     pkg = "servant-client";
     ver = "0.16.0.1";
     sha256 = "1236sldcgvk2zj20cxib9yxrdxz7d1a83jfdnn9mxa272srfq9a9";
-  });
-
-  servant-client-core = dontCheck (callHackageDirect {
-    pkg = "servant-client-core";
-    ver = "0.16";
-    sha256 = "0panxplcjslsvqxvsabn2fy0fhcqmmr0dqj51hk7bk7yyvgwxklf";
-  });
-
-  servant-server = dontCheck (callHackageDirect {
-    pkg = "servant-server";
-    ver = "0.16.2";
-    sha256 = "1klcszpfqy1vn3q1wbqxjghfyddw8wbg4f0ggllqw8qx2f5zp5y1";
-  });
-
-  servant-swagger = dontCheck (callHackageDirect {
-    pkg = "servant-swagger";
-    ver = "1.1.7.1";
-    sha256 = "1ymdcmdi234p9jbwa7rgj1j35n9xnx4kgfjba4gs2r8cnhqwak28";
   });
 
   swagger2 = dontCheck (callHackageDirect {
@@ -199,6 +188,12 @@ in with pkgs.haskell.lib; {
     rev = "17a5fb130926582eff081eeb1b94cb6c7097c67a";
     sha256 = "03ihjgwqpif68870wwsgz1s4yz45zql1slky1lj4ixfxbig06md4";
   }) {});
+
+  connection = callHackageDirect {
+    pkg = "connection";
+    ver = "0.3.1";
+    sha256 = "0qjdz2fxxszbns7cszhnkwm8x8l3xlnad6iydx2snfi416sypiy0";
+  };
 
   configuration-tools = dontCheck (callHackageDirect {
     pkg = "configuration-tools";
@@ -364,6 +359,8 @@ in with pkgs.haskell.lib; {
     sha256 = "0bx7ay7dx6ljhy1a6bmjdz52vfwmx8af8sd96p38yc0m9irjz02h";
   });
 
+  streaming-commons = whenGhcjs dontCheck super.streaming-commons;
+
   streaming-concurrency = callHackageDirect {
     pkg = "streaming-concurrency";
     ver = "0.3.1.3";
@@ -389,19 +386,13 @@ in with pkgs.haskell.lib; {
     sha256 = "1mwv1y9mrhmm5wii09f3gvy100zp6k9441mszx630ilz1igmypkn";
   };
 
-  typed-process = callHackageDirect {
-    pkg = "typed-process";
-    ver = "0.2.5.0";
-    sha256 = "00jgzcqc6n759547ij7s5bfb08q92sq3kfrbzhh5l1ppz5agv9li";
-  };
-
   unliftio = callHackageDirect {
     pkg = "unliftio";
     ver = "0.2.12";
     sha256 = "1mlvs28mv269vd9j9l67i7w7kwzlh1zm5fm7nqdr7pmhqdr27ybn";
   };
 
-  ## kadena packages ##
+  ## Kadena packages ##
   chainweb = dontCheck (self.callCabal2nix "chainweb" repos.chainweb-node {});
   chainweb-miner = self.callCabal2nix "chainweb-miner" repos.chainweb-miner {};
   pact = addBuildDepend (self.callCabal2nix "pact" repos.pact {}) pkgs.z3;
