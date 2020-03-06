@@ -55,11 +55,11 @@ in with pkgs.haskell.lib; {
     sha256 = "0z8mgzdis72a9zd9x9f185phqr4bx8s06piggis4rlih1rly61nr";
   });
 
-  hedgehog = dontCheck (callHackageDirect {
+  hedgehog = callHackageDirect {
     pkg = "hedgehog";
     ver = "1.0.1";
     sha256 = "0h9qwd4gw5n8j8is9kn9mll32c8v6z1dv9mp4fmkmz7k5zi4asjq";
-  });
+  };
 
   inspection-testing = guardGhcjs (callHackageDirect {
     pkg = "inspection-testing";
@@ -98,12 +98,12 @@ in with pkgs.haskell.lib; {
   });
 
   ## Chainweb Overrides ##
-  chainweb-storage = dontCheck (self.callCabal2nix "chainweb-storage" (pkgs.fetchFromGitHub {
+  chainweb-storage = self.callCabal2nix "chainweb-storage" (pkgs.fetchFromGitHub {
     owner = "kadena-io";
     repo = "chainweb-storage";
     rev = "17a5fb130926582eff081eeb1b94cb6c7097c67a";
     sha256 = "03ihjgwqpif68870wwsgz1s4yz45zql1slky1lj4ixfxbig06md4";
-  }) {});
+  }) {};
 
   connection = callHackageDirect {
     pkg = "connection";
@@ -111,11 +111,11 @@ in with pkgs.haskell.lib; {
     sha256 = "0qjdz2fxxszbns7cszhnkwm8x8l3xlnad6iydx2snfi416sypiy0";
   };
 
-  digraph = dontCheck (callHackageDirect {
+  digraph = callHackageDirect {
     pkg = "digraph";
     ver = "0.1.0.2";
     sha256 = "1alqdzzlw8ns6hy8vh3ic4ign7jjxxa0cyxkv26zz7k2dihf3hzg";
-  });
+  };
 
   generic-lens = dontCheck (callHackageDirect {
     pkg = "generic-lens";
@@ -186,7 +186,7 @@ in with pkgs.haskell.lib; {
   streaming-commons = whenGhcjs dontCheck super.streaming-commons;
 
   ## Kadena packages ##
-  chainweb = dontCheck (self.callCabal2nix "chainweb" repos.chainweb-node {});
+  chainweb = self.callCabal2nix "chainweb" repos.chainweb-node {};
   chainweb-miner = self.callCabal2nix "chainweb-miner" repos.chainweb-miner {};
   pact = addBuildDepend (self.callCabal2nix "pact" repos.pact {}) pkgs.z3;
   kadena-signing-api = self.callCabal2nix "kadena-signing-api" (repos.signing-api + /kadena-signing-api) {};
