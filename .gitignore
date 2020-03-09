@@ -1,1 +1,3 @@
 result
+.ghc.environment.*
+dist-newstyle
