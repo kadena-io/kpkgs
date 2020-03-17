@@ -405,7 +405,7 @@ in with pkgs.haskell.lib; {
   blake2 = dontCheck (callHackageDirect {
     pkg = "blake2";
     ver = "0.3.0";
-    sha256 = "1rlkjnq1r431qq3vbhhyy5naqsq4rc6j4xhfq32g5fxia81wxxjz";
+    sha256 = "0n366qqhz7azh9fgjqvj99b3ni57721a2q5xxlawwmkxrxy36hb2";
   });
 
   ## kadena packages ##
