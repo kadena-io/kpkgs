@@ -185,6 +185,22 @@ in with pkgs.haskell.lib; {
 
   streaming-commons = whenGhcjs dontCheck super.streaming-commons;
 
+  # https://github.com/ghcjs/jsaddle/pull/114 widens warp bound
+  # tests disabled because webdriver fails to build
+  jsaddle-warp = dontCheck (self.callCabal2nix "jsaddle-warp" (pkgs.fetchFromGitHub {
+    owner = "obsidiansystems";
+    repo = "jsaddle";
+    rev = "86b166033186c1724d4d52eeaf0935f0f29fe1ca";
+    sha256 = "1m1xxy4l9ii91k1k504qkxh9k1ybprm1m66mkb9dqlwcpyhcccmv";
+  } + /jsaddle-warp) {});
+
+  ## chainweb-api ##
+  blake2 = dontCheck (callHackageDirect {
+    pkg = "blake2";
+    ver = "0.3.0";
+    sha256 = "0n366qqhz7azh9fgjqvj99b3ni57721a2q5xxlawwmkxrxy36hb2";
+  });
+
   ## Kadena packages ##
   chainweb = self.callCabal2nix "chainweb" repos.chainweb-node {};
   chainweb-miner = self.callCabal2nix "chainweb-miner" repos.chainweb-miner {};
