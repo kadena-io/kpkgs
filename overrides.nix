@@ -401,6 +401,13 @@ in with pkgs.haskell.lib; {
     sha256 = "1mlvs28mv269vd9j9l67i7w7kwzlh1zm5fm7nqdr7pmhqdr27ybn";
   };
 
+  ## chainweb-api ##
+  blake2 = dontCheck (callHackageDirect {
+    pkg = "blake2";
+    ver = "0.3.0";
+    sha256 = "1rlkjnq1r431qq3vbhhyy5naqsq4rc6j4xhfq32g5fxia81wxxjz";
+  });
+
   ## kadena packages ##
   chainweb = dontCheck (self.callCabal2nix "chainweb" repos.chainweb-node {});
   chainweb-miner = self.callCabal2nix "chainweb-miner" repos.chainweb-miner {};
