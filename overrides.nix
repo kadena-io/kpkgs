@@ -401,6 +401,15 @@ in with pkgs.haskell.lib; {
     sha256 = "1mlvs28mv269vd9j9l67i7w7kwzlh1zm5fm7nqdr7pmhqdr27ybn";
   };
 
+  # https://github.com/ghcjs/jsaddle/pull/114 widens warp bound
+  # tests disabled because webdriver fails to build
+  jsaddle-warp = dontCheck (self.callCabal2nix "jsaddle-warp" (pkgs.fetchFromGitHub {
+    owner = "obsidiansystems";
+    repo = "jsaddle";
+    rev = "86b166033186c1724d4d52eeaf0935f0f29fe1ca";
+    sha256 = "1m1xxy4l9ii91k1k504qkxh9k1ybprm1m66mkb9dqlwcpyhcccmv";
+  } + /jsaddle-warp) {});
+
   ## chainweb-api ##
   blake2 = dontCheck (callHackageDirect {
     pkg = "blake2";
