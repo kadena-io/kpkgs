@@ -6,6 +6,7 @@ build-type:          Simple
 
 library
   build-depends:       base
+                     , chainweb-api
                      , kadena-signing-api
                      , pact
 
