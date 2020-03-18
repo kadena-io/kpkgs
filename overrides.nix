@@ -6,6 +6,7 @@ let
     callHackageDirect = args: self.callHackageDirect args {};
 
     repos = {
+      chainweb-api = hackGet ./dep/chainweb-api;
       chainweb-miner = hackGet ./dep/chainweb-miner;
       chainweb-node = hackGet ./dep/chainweb-node;
       pact = hackGet ./dep/pact;
@@ -419,6 +420,7 @@ in with pkgs.haskell.lib; {
 
   ## kadena packages ##
   chainweb = dontCheck (self.callCabal2nix "chainweb" repos.chainweb-node {});
+  chainweb-api = self.callCabal2nix "chainweb-miner" repos.chainweb-api {};
   chainweb-miner = self.callCabal2nix "chainweb-miner" repos.chainweb-miner {};
   pact = addBuildDepend (self.callCabal2nix "pact" repos.pact {}) pkgs.z3;
   kadena-signing-api = self.callCabal2nix "kadena-signing-api" (repos.signing-api + /kadena-signing-api) {};
