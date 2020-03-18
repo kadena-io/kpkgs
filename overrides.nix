@@ -276,12 +276,6 @@ in with pkgs.haskell.lib; {
     sha256 = "1mwrrki3zsc4ncr7psjv9iqkzh7f25c2ch4lf2784fh6q46i997j";
   };
 
-  streaming-events = callHackageDirect {
-    pkg = "streaming-events";
-    ver = "1.0.0";
-    sha256 = "1lwb5cdm4wm0avvq926jj1zyzs1g0mpanzw9kmj1r24clizdw6pm";
-  };
-
   these = doJailbreak (callHackageDirect {
     pkg = "these";
     ver = "1.0.1";
@@ -420,14 +414,23 @@ in with pkgs.haskell.lib; {
   });
 
   ## chainweb-data ##
+  beam-core = self.callCabal2nix "beam-core" (repos.beam + /beam-core) {};
+  beam-migrate = self.callCabal2nix "beam-migrate" (repos.beam + /beam-migrate) {};
+  beam-postgres = dontCheck (self.callCabal2nix "beam-postgres" (repos.beam + /beam-postgres) {});
+
+  # Also used by chainweb-node, but this fork not required
+  streaming-events = dontCheck (self.callCabal2nix "streaming-events" (pkgs.fetchFromGitHub {
+    owner = "kadena-io";
+    repo = "streaming-events";
+    rev = "71e811f18d163cf5c4c8a99ce9a01c4c9eae76f0";
+    sha256 = "1riqi1r1gaa5a3av9a25mc4zvaqzaqzcycccvd7mrybkxs3zcjwj";
+  }) {});
+
   witherable-class = dontCheck (callHackageDirect {
     pkg = "witherable-class";
     ver = "0";
     sha256 = "1v9rkk040j87bnipljmvccxwz8phpkgnq6vbwdq0l7pf7w3im5wc";
   });
-  beam-core = self.callCabal2nix "beam-core" (repos.beam + /beam-core) {};
-  beam-migrate = self.callCabal2nix "beam-migrate" (repos.beam + /beam-migrate) {};
-  beam-postgres = dontCheck (self.callCabal2nix "beam-postgres" (repos.beam + /beam-postgres) {});
 
   ## kadena packages ##
   chainweb = dontCheck (self.callCabal2nix "chainweb" repos.chainweb-node {});
