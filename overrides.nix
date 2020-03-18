@@ -264,11 +264,12 @@ in with pkgs.haskell.lib; {
 
   rocksdb-haskell = dontCheck super.rocksdb-haskell;
 
-  scheduler = callHackageDirect {
+  # scheduler test suite fails occasionally on linux
+  scheduler = dontCheck (callHackageDirect {
     pkg = "scheduler";
     ver = "1.4.2.1";
     sha256 = "0xlcvcwf3n4zbhf9pa3hyzc4ds628aki077564gaf4sdg1gm90qh";
-  };
+  });
 
   systemd = callHackageDirect {
     pkg = "systemd";
