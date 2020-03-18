@@ -6,6 +6,7 @@ let
     callHackageDirect = args: self.callHackageDirect args {};
 
     repos = {
+      beam = hackGet ./dep/beam;
       chainweb-api = hackGet ./dep/chainweb-api;
       chainweb-miner = hackGet ./dep/chainweb-miner;
       chainweb-node = hackGet ./dep/chainweb-node;
@@ -417,6 +418,16 @@ in with pkgs.haskell.lib; {
     ver = "0.3.0";
     sha256 = "0n366qqhz7azh9fgjqvj99b3ni57721a2q5xxlawwmkxrxy36hb2";
   });
+
+  ## chainweb-data ##
+  witherable-class = dontCheck (callHackageDirect {
+    pkg = "witherable-class";
+    ver = "0";
+    sha256 = "1v9rkk040j87bnipljmvccxwz8phpkgnq6vbwdq0l7pf7w3im5wc";
+  });
+  beam-core = self.callCabal2nix "beam-core" (repos.beam + /beam-core) {};
+  beam-migrate = self.callCabal2nix "beam-migrate" (repos.beam + /beam-migrate) {};
+  beam-postgres = dontCheck (self.callCabal2nix "beam-postgres" (repos.beam + /beam-postgres) {});
 
   ## kadena packages ##
   chainweb = dontCheck (self.callCabal2nix "chainweb" repos.chainweb-node {});
