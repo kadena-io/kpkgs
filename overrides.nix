@@ -6,6 +6,7 @@ let
     callHackageDirect = args: self.callHackageDirect args {};
 
     repos = {
+      beam = hackGet ./dep/beam;
       chainweb-api = hackGet ./dep/chainweb-api;
       chainweb-miner = hackGet ./dep/chainweb-miner;
       chainweb-node = hackGet ./dep/chainweb-node;
@@ -136,17 +137,12 @@ in with pkgs.haskell.lib; {
     sha256 = "0md9zs1md32ny9ln0dpw2hw1xka1v67alv68s8xhj0p7fabi5lxm";
   };
 
-  scheduler = callHackageDirect {
+  # scheduler test suite fails occasionally on linux
+  scheduler = dontCheck (callHackageDirect {
     pkg = "scheduler";
     ver = "1.4.2.1";
     sha256 = "0xlcvcwf3n4zbhf9pa3hyzc4ds628aki077564gaf4sdg1gm90qh";
-  };
-
-  streaming-events = callHackageDirect {
-    pkg = "streaming-events";
-    ver = "1.0.0";
-    sha256 = "1lwb5cdm4wm0avvq926jj1zyzs1g0mpanzw9kmj1r24clizdw6pm";
-  };
+  });
 
   tls = callHackageDirect {
     pkg = "tls";
@@ -202,9 +198,28 @@ in with pkgs.haskell.lib; {
     sha256 = "0n366qqhz7azh9fgjqvj99b3ni57721a2q5xxlawwmkxrxy36hb2";
   });
 
-  ## Kadena packages ##
+  ## chainweb-data ##
+  beam-core = self.callCabal2nix "beam-core" (repos.beam + /beam-core) {};
+  beam-migrate = self.callCabal2nix "beam-migrate" (repos.beam + /beam-migrate) {};
+  beam-postgres = dontCheck (self.callCabal2nix "beam-postgres" (repos.beam + /beam-postgres) {});
+
+  # Also used by chainweb-node, but this fork not required
+  streaming-events = dontCheck (self.callCabal2nix "streaming-events" (pkgs.fetchFromGitHub {
+    owner = "kadena-io";
+    repo = "streaming-events";
+    rev = "71e811f18d163cf5c4c8a99ce9a01c4c9eae76f0";
+    sha256 = "1riqi1r1gaa5a3av9a25mc4zvaqzaqzcycccvd7mrybkxs3zcjwj";
+  }) {});
+
+  witherable-class = dontCheck (callHackageDirect {
+    pkg = "witherable-class";
+    ver = "0";
+    sha256 = "1v9rkk040j87bnipljmvccxwz8phpkgnq6vbwdq0l7pf7w3im5wc";
+  });
+
+  ## kadena packages ##
   chainweb = self.callCabal2nix "chainweb" repos.chainweb-node {};
-  chainweb-api = self.callCabal2nix "chainweb-miner" repos.chainweb-api {};
+  chainweb-api = self.callCabal2nix "chainweb-api" repos.chainweb-api {};
   chainweb-miner = self.callCabal2nix "chainweb-miner" repos.chainweb-miner {};
   pact = addBuildDepend (self.callCabal2nix "pact" repos.pact {}) pkgs.z3;
   kadena-signing-api = self.callCabal2nix "kadena-signing-api" (repos.signing-api + /kadena-signing-api) {};
