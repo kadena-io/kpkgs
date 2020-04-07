@@ -84,8 +84,23 @@ in with pkgs.haskell.lib; {
 
   megaparsec = dontCheck (callHackageDirect {
     pkg = "megaparsec";
-    ver = "7.0.5";
-    sha256 = "1wizfz8vdplz3sf81vh33sny6p8ynhlpvjxqjpsym7ssb186h0f1";
+    ver = "8.0.0";
+    sha256 = "1bk4jsa69maryj97jcvxxc211icvnkr21xrj2bqq9ddfizkq5lg0";
+  });
+
+  # neat-interpolation >= 0.4 breaks Chainweb genesis blocks!
+  neat-interpolation = dontCheck (callHackageDirect {
+    pkg = "neat-interpolation";
+    ver = "0.3.2.6";
+    sha256 = "15sk4x3aljlgmp40xy5yq169pmgf3i6x3xlqaaw24xwahn21kab4";
+  });
+
+  # prettyprinter > 1.6.0 breaks binary compatibility of Pact payloads
+  # inside Chainweb blocks!
+  prettyprinter = dontCheck (callHackageDirect {
+    pkg = "prettyprinter";
+    ver = "1.6.0";
+    sha256 = "0f8wqaj3cv3yra938afqf62wrvq20yv9jd048miw5zrfavw824aa";
   });
 
   sbv = dontCheck (callHackageDirect {
