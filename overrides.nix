@@ -204,8 +204,8 @@ in with pkgs.haskell.lib; {
 
   configuration-tools = dontCheck (callHackageDirect {
     pkg = "configuration-tools";
-    ver = "0.4.1";
-    sha256 = "1sbn4dbb2y1gwdwjvz5vf6a1g349z0jha5iz4dmp2v67dv86fzs5";
+    ver = "0.5.0";
+    sha256 = "178myf00d7612a668wmr5simd3nz8pa2v3m803i8xc1qvzayjnvb";
   });
 
   digraph = dontCheck (callHackageDirect {
@@ -365,6 +365,12 @@ in with pkgs.haskell.lib; {
     pkg = "streaming-concurrency";
     ver = "0.3.1.3";
     sha256 = "11mgp53kpdnjnrx3l8z6nhm48rhl5i0sgn0vydqa488xinj3h28a";
+  };
+
+  yet-another-logger = callHackageDirect {
+    pkg = "yet-another-logger";
+    ver = "0.4.0";
+    sha256 = "00fv1gil8jp0qhwc7k4ii2fmfpsx942q3yvz9h7iw0s7hmiyb41k";
   };
 
   ## chainweb-miner ##
