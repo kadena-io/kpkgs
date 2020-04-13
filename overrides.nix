@@ -212,8 +212,8 @@ in with pkgs.haskell.lib; {
   chainweb-storage = dontCheck (self.callCabal2nix "chainweb-storage" (pkgs.fetchFromGitHub {
     owner = "kadena-io";
     repo = "chainweb-storage";
-    rev = "17a5fb130926582eff081eeb1b94cb6c7097c67a";
-    sha256 = "03ihjgwqpif68870wwsgz1s4yz45zql1slky1lj4ixfxbig06md4";
+    rev = "07e7eb7596c7105aee42dbdb6edd10e3f23c0d7e";
+    sha256 = "0piqlj9i858vmvmiis9i8k6cz7fh78zfaj47fsq5cs9v7zpj234z";
   }) {});
 
   configuration-tools = dontCheck (callHackageDirect {
