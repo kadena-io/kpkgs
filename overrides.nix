@@ -453,6 +453,13 @@ in with pkgs.haskell.lib; {
     sha256 = "1v9rkk040j87bnipljmvccxwz8phpkgnq6vbwdq0l7pf7w3im5wc";
   });
 
+  ## Other ##
+  versions = dontCheck (callHackageDirect {
+    pkg = "versions";
+    ver = "3.5.3";
+    sha256 = "0fm5bhcxbgx14mb5ccx60vdmy0zl9hci9mh15zcqdqnspl67z67j";
+  });
+
   ## kadena packages ##
   chainweb = dontCheck (self.callCabal2nix "chainweb" repos.chainweb-node {});
   chainweb-api = self.callCabal2nix "chainweb-api" repos.chainweb-api {};
