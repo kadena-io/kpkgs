@@ -35,8 +35,21 @@ gitignoreSrc = pkgs.fetchFromGitHub {
   sha256 = "0jrh5ghisaqdd0vldbywags20m2cxpkbbk5jjjmwaw0gr8nhsafv";
 };
 
+# Stolen from reflex-platform.  An attempt at making this package CI-able
+# pinBuildInputs = name: buildInputs: (pkgs.releaseTools.aggregate {
+#   inherit name;
+#   constituents = buildInputs;
+# }).overrideAttrs (old: {
+#   buildCommand = old.buildCommand + ''
+#     echo "$propagatedBuildInputs $buildInputs $nativeBuildInputs $propagatedNativeBuildInputs" > "$out/dep"
+#   '';
+#   inherit buildInputs;
+# });
+
 in {
   inherit reflex-platform-func rp pkgs;
   inherit (rp) hackGet ghc8_6 ghcjs8_6;
   inherit (import gitignoreSrc { inherit (pkgs) lib; }) gitignoreSource;
+
+  # allDeps = pinBuildInputs "all-kadena-deps" (builtins.mapAttrs (attr: attr) (haskellOverlay null null));
 }
