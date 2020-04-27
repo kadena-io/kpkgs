@@ -281,8 +281,8 @@ in with pkgs.haskell.lib; {
   rosetta = dontCheck (self.callCabal2nix "rosetta" (pkgs.fetchFromGitHub {
     owner = "kadena-io";
     repo = "rosetta";
-    rev = "cb8b3c7f7a94269071569fa4f12a31785d14ef1e";
-    sha256 = "1pdd6hx3hpkamibiabqb4jgy6dim7bp9wak62l2rsvn5lhkcfrh2";
+    rev = "a2bd9d6647b2316718b40d96f23d3c82bd621239";
+    sha256 = "13zrmvi1naa5dlrj2c2bg5b3znhb9yi0b3wr9rj42nip9h2fx24n";
   }) {});
 
   # scheduler test suite fails occasionally on linux
