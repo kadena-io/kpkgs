@@ -298,6 +298,12 @@ in with pkgs.haskell.lib; {
     sha256 = "1mwrrki3zsc4ncr7psjv9iqkzh7f25c2ch4lf2784fh6q46i997j";
   };
 
+  tasty-json = callHackageDirect {
+    pkg = "tasty-json";
+    ver = "0.1.0.0";
+    sha256 = "16rbagd4ypbs4scmni4na08f3ycsj4g4w4mlizczpxlc1hfbwy5k";
+  };
+
   these = doJailbreak (callHackageDirect {
     pkg = "these";
     ver = "1.0.1";
