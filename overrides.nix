@@ -224,8 +224,8 @@ in with pkgs.haskell.lib; {
 
   digraph = dontCheck (callHackageDirect {
     pkg = "digraph";
-    ver = "0.1.0.2";
-    sha256 = "1alqdzzlw8ns6hy8vh3ic4ign7jjxxa0cyxkv26zz7k2dihf3hzg";
+    ver = "0.2";
+    sha256 = "0gly6ya97bkd7ppw316czwfl7v39jc7vr93qmxqjczxn3msc9vi0";
   });
 
   fake = doJailbreak (callHackageDirect {
