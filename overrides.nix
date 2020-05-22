@@ -12,6 +12,7 @@ let
       chainweb-node = hackGet ./dep/chainweb-node;
       pact = hackGet ./dep/pact;
       signing-api = hackGet ./dep/signing-api;
+      rosetta = hackGet ./dep/rosetta;
     };
 
 in with pkgs.haskell.lib; {
@@ -278,13 +279,6 @@ in with pkgs.haskell.lib; {
 
   rocksdb-haskell = dontCheck super.rocksdb-haskell;
 
-  rosetta = dontCheck (self.callCabal2nix "rosetta" (pkgs.fetchFromGitHub {
-    owner = "kadena-io";
-    repo = "rosetta";
-    rev = "ac4d7932db23bc8a726c9421df8a32db9a399e49";
-    sha256 = "1wqb7dcz5d21sd7d85fhmyy1n6min7m83j8hwhp8n58j7qw8mm4g";
-  }) {});
-
   # scheduler test suite fails occasionally on linux
   scheduler = dontCheck (callHackageDirect {
     pkg = "scheduler";
@@ -479,4 +473,5 @@ in with pkgs.haskell.lib; {
   chainweb-miner = self.callCabal2nix "chainweb-miner" repos.chainweb-miner {};
   pact = addBuildDepend (self.callCabal2nix "pact" repos.pact {}) pkgs.z3;
   kadena-signing-api = self.callCabal2nix "kadena-signing-api" (repos.signing-api + /kadena-signing-api) {};
+  rosetta = self.callCabal2nix "rosetta" repos.rosetta {};
 }
