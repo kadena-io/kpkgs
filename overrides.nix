@@ -306,7 +306,7 @@ in with pkgs.haskell.lib; {
 
   these-skinny = doJailbreak (callHackageDirect {
     pkg = "these-skinny";
-    ver = "0.4.7";
+    ver = "0.7.4";
     sha256 = "0hlxf94ir99y0yzm9pq8cvs7vbar4bpj1w1ibs96hrx2biwfbnkr";
   });
 
