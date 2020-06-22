@@ -304,6 +304,12 @@ in with pkgs.haskell.lib; {
     sha256 = "1b2cdc9d9slxjw5cr4pmplfln5kawj2w74zi92hsmwkffqiycjhz";
   });
 
+  these-skinny = doJailbreak (callHackageDirect {
+    pkg = "these-skinny";
+    ver = "0.7.4";
+    sha256 = "0ryhnik364xmxcr714jlvl7gp3ys37ibqsvkywzhqi277hq6fh52";
+  });
+
   tls = callHackageDirect {
     pkg = "tls";
     ver = "1.5.3";
