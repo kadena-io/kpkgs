@@ -12,7 +12,7 @@ z3 = self: super: {
       owner = "Z3Prover";
       repo = "z3";
       rev = "ad55a1f1c617a7f0c3dd735c0780fc758424c7f1";
-      sha256 = "11sy98clv7ln0a5vqxzvh6wwqbswsjbik2084hav5kfws4xvklf0";
+      sha256 = "1rn538ghqwxq0v8i6578j8mflk6fyv0cp4hjfqynzvinjbps56da";
     };
   });
 };
