@@ -5,14 +5,14 @@ let
 
 z3 = self: super: {
   z3 = super.z3.overrideAttrs (drv: {
-    name = "z3-4.8.5";
-    version = "4.8.5";
+    name = "z3-4.8.8";
+    version = "4.8.8";
     patches = [];
     src = self.fetchFromGitHub {
       owner = "Z3Prover";
       repo = "z3";
-      rev = "e79542cc689d52ec4cb34ce4ae3fbe56e7a0bf70";
-      sha256 = "11sy98clv7ln0a5vqxzvh6wwqbswsjbik2084hav5kfws4xvklfa";
+      rev = "ad55a1f1c617a7f0c3dd735c0780fc758424c7f1";
+      sha256 = "11sy98clv7ln0a5vqxzvh6wwqbswsjbik2084hav5kfws4xvklf0";
     };
   });
 };
