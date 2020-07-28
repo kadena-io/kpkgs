@@ -107,7 +107,7 @@ in with pkgs.haskell.lib; {
   sbv = dontCheck (callHackageDirect {
     pkg = "sbv";
     ver = "8.7";
-    sha256 = "1isa8p9dnahkljwj0kz10119dwiycf11jvzdc934lnjv1spxkc90";
+    sha256 = "06h1w0hnn053rma5lx01v2x8ybbmkacrd2lb7mx92qq1ys661nxd";
   });
 
   semialign = callHackageDirect {
