@@ -225,8 +225,8 @@ in with pkgs.haskell.lib; {
 
   cuckoo = dontBenchmark (dontCheck (callHackageDirect {
      pkg = "cuckoo";
-     ver = "0.2.0.1";
-     sha256 = "009mm3jmrjdix42q9dpck7yc2h3f9j7cgr3vj59g9dcmab0ky500";
+     ver = "0.2.1";
+     sha256 = "1dsac9qc90aagcgvznzfjd4wl8wgxhq1m8f5h556ys72nkm1ablx";
    }));
 
   digraph = dontCheck (callHackageDirect {
@@ -276,12 +276,6 @@ in with pkgs.haskell.lib; {
     ver = "0.3.1.0";
     sha256 = "1hnwvhz9w07z2mlq75iz0bysz586d828725k1bx8mjqvc86ncv8m";
   };
-  
-  primitive = dontCheck (callHackageDirect {
-     pkg = "primitive";
-     ver = "0.7.1.0";
-     sha256 = "1mmhfp95wqg6i5gzap4b4g87zgbj46nnpir56hqah97igsbvis7j";
-  });
 
   random-strings = callHackageDirect {
     pkg = "random-strings";
