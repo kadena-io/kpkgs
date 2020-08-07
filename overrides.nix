@@ -226,7 +226,7 @@ in with pkgs.haskell.lib; {
   cuckoo = dontBenchmark (dontCheck (callHackageDirect {
      pkg = "cuckoo";
      ver = "0.2.0.1";
-     sha256 = "009mm3jmrjdix42q9dpck7yc2h3f9j7cgr3vj59g9dcmab0ky5rr";
+     sha256 = "009mm3jmrjdix42q9dpck7yc2h3f9j7cgr3vj59g9dcmab0ky5r0";
    }));
 
   digraph = dontCheck (callHackageDirect {
