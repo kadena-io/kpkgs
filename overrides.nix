@@ -280,7 +280,7 @@ in with pkgs.haskell.lib; {
   primitive = dontCheck (callHackageDirect {
      pkg = "primitive";
      ver = "0.7.1.0";
-     sha256 = "009mm3jmrjdix42q9dpck7yc2h3f9j7cgr3vj59g9dcmab0ky5r0";
+     sha256 = "1mmhfp95wqg6i5gzap4b4g87zgbj46nnpir56hqah97igsbvis7j";
   });
 
   random-strings = callHackageDirect {
