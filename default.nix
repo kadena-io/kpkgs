@@ -39,4 +39,5 @@ in {
   inherit reflex-platform-func rp pkgs;
   inherit (rp) hackGet ghc8_6 ghcjs8_6;
   inherit (import gitignoreSrc { inherit (pkgs) lib; }) gitignoreSource;
+  callHackageDirect = rp.nixpkgs.haskellPackages.callHackageDirect;
 }
