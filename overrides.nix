@@ -36,6 +36,7 @@ in with pkgs.haskell.lib; {
   algebraic-graphs = whenGhcjs dontCheck super.algebraic-graphs;
   base-compat-batteries = whenGhcjs dontCheck super.base-compat-batteries;
   bound = whenGhcjs dontCheck super.bound;
+  brittany = doJailbreak super.brittany;
   bsb-http-chunked = whenGhcjs dontCheck super.bsb-http-chunked;
   bytes = whenGhcjs dontCheck super.bytes;
   extra = whenGhcjs dontCheck super.extra;
@@ -85,15 +86,15 @@ in with pkgs.haskell.lib; {
 
   megaparsec = dontCheck (callHackageDirect {
     pkg = "megaparsec";
-    ver = "8.0.0";
-    sha256 = "1bk4jsa69maryj97jcvxxc211icvnkr21xrj2bqq9ddfizkq5lg0";
+    ver = "9.0.0";
+    sha256 = "03kqcfpsmi5l4mr6lsmlpks2mp9prf9yy97mmrkclwqpxybdjx2l";
   });
 
   # neat-interpolation >= 0.4 breaks Chainweb genesis blocks!
   neat-interpolation = dontCheck (callHackageDirect {
     pkg = "neat-interpolation";
-    ver = "0.3.2.6";
-    sha256 = "15sk4x3aljlgmp40xy5yq169pmgf3i6x3xlqaaw24xwahn21kab4";
+    ver = "0.5.1.2";
+    sha256 = "0lcgjxw690hyswqxaghf7z08mx5694l7kijyrsjd42yxswajlplx";
   });
 
   # prettyprinter > 1.6.0 breaks binary compatibility of Pact payloads
@@ -106,8 +107,8 @@ in with pkgs.haskell.lib; {
 
   sbv = dontCheck (callHackageDirect {
     pkg = "sbv";
-    ver = "8.7";
-    sha256 = "06h1w0hnn053rma5lx01v2x8ybbmkacrd2lb7mx92qq1ys661nxd";
+    ver = "8.8";
+    sha256 = "0sbl7xczk7qn658j4zcp7wg0x9gxy07wqxv7xnjhzrjx066qjix1";
   });
 
   semialign = callHackageDirect {
@@ -205,8 +206,8 @@ in with pkgs.haskell.lib; {
 
   hspec-golden = dontCheck (callHackageDirect {
     pkg = "hspec-golden";
-    ver = "0.1.0.1";
-    sha256 = "1fplsb3rb6f3w20cncr0zrjpf7x4kc3njy8l016p5wxxh3hkgdrs";
+    ver = "0.1.0.2";
+    sha256 = "072dfk1l4kwgc95kfkj2v30pybv6f8imx95w6wzxpnv8prvx7jy0";
   });
 
   ## Chainweb Overrides ##
@@ -481,7 +482,10 @@ in with pkgs.haskell.lib; {
 
   ## kadena packages ##
   chainweb = dontCheck (self.callCabal2nix "chainweb" repos.chainweb-node {});
-  chainweb-api = self.callCabal2nix "chainweb-api" repos.chainweb-api {};
+
+  # This doJailbreak is temporary until we update chainweb-api
+  chainweb-api = doJailbreak (self.callCabal2nix "chainweb-api" repos.chainweb-api {});
+
   chainweb-miner = self.callCabal2nix "chainweb-miner" repos.chainweb-miner {};
   pact = addBuildDepend (self.callCabal2nix "pact" repos.pact {}) pkgs.z3;
   kadena-signing-api = self.callCabal2nix "kadena-signing-api" (repos.signing-api + /kadena-signing-api) {};

@@ -1,8 +1,8 @@
 {
   "owner": "kadena-io",
   "repo": "pact",
-  "branch": "lars/sbv-upgrade",
+  "branch": "lars/updates",
   "private": false,
-  "rev": "94cfeb57e2f90c299fc27cc3e72f6b6aa9109c06",
-  "sha256": "1k4jl12i0m2fcmfksha5pjb2b16r5qjkh7sayv7mcy0vryb88fa8"
+  "rev": "fd73e3a7372dfbd2c3ce85282e6cff2c6fe39286",
+  "sha256": "12w6ga8sw7pkjpyxrmd3s2vc4n041dklv2f1kygzdg398ahj6qvm"
 }
