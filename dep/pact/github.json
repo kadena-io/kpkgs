@@ -1,8 +1,8 @@
 {
   "owner": "kadena-io",
   "repo": "pact",
-  "branch": "lars/updates",
+  "branch": "master",
   "private": false,
-  "rev": "fd73e3a7372dfbd2c3ce85282e6cff2c6fe39286",
-  "sha256": "12w6ga8sw7pkjpyxrmd3s2vc4n041dklv2f1kygzdg398ahj6qvm"
+  "rev": "eff39aefdcff3979dd93b20bca8bff7ed8490ea8",
+  "sha256": "1klzwi0zmkbh4gjjd93jz0x3hjlzly9lk7k48lzncjffnsh6q06l"
 }
