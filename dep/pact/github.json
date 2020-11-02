@@ -1,8 +1,8 @@
 {
   "owner": "kadena-io",
   "repo": "pact",
-  "branch": "master",
+  "branch": "doug/signature-json",
   "private": false,
-  "rev": "dcdb09e2e197bf05036ec5567fad38a18b09959e",
-  "sha256": "1p09b9k4m3xr6nh2hg4pxnp9kgh9zg4bvzqhfzg46n5ph7aig545"
+  "rev": "b163a2a3e4562df1f3e652650ea435571be19664",
+  "sha256": "0ahx5b2qn0wsr856f0aph2m3znpsasb7xkvmcpqivcphvvgl0hqn"
 }
