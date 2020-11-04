@@ -1,8 +1,8 @@
 {
   "owner": "kadena-io",
   "repo": "signing-api",
-  "branch": "master",
+  "branch": "quicksign",
   "private": false,
-  "rev": "bba10d2d561d823774a78af706d72d5fca465766",
-  "sha256": "1v4hdbxzmk68hgrq43a2yyy4f01dmybywcbh4k4y35a52qkjv9rb"
+  "rev": "db0bbe00c166c2197f1cec2b2085a235a9ae36a0",
+  "sha256": "1xfbzpfp6sfiiv6px1dir91h82yw40ybhpgr225cr7j1qfdgdalv"
 }

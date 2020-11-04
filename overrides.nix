@@ -72,6 +72,12 @@ in with pkgs.haskell.lib; {
     sha256 = "0h9qwd4gw5n8j8is9kn9mll32c8v6z1dv9mp4fmkmz7k5zi4asjq";
   });
 
+  hspec-megaparsec = dontCheck (callHackageDirect {
+    pkg = "hspec-megaparsec";
+    ver = "2.2.0";
+    sha256 = "0fclj5snkg4r18zjpbgp4ai1lzxkvnrjh0194pi9l4s9g277ranc";
+  });
+
   http-api-data = dontCheck (callHackageDirect {
     pkg = "http-api-data";
     ver = "0.4.1";
@@ -88,6 +94,12 @@ in with pkgs.haskell.lib; {
     pkg = "megaparsec";
     ver = "9.0.0";
     sha256 = "03kqcfpsmi5l4mr6lsmlpks2mp9prf9yy97mmrkclwqpxybdjx2l";
+  });
+
+  modern-uri = dontCheck (callHackageDirect {
+    pkg = "modern-uri";
+    ver = "0.3.3.0";
+    sha256 = "1z1ad9n5h4pjgfbb38fanysrjvf8dhb8s2vfbb0b8w7jmn9rsc2x";
   });
 
   # neat-interpolation >= 0.4 breaks Chainweb genesis blocks!
