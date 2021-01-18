@@ -33,7 +33,7 @@ in with pkgs.haskell.lib; {
 
   ## Pact Overrides ##
 
-  algebraic-graphs = whenGhcjs dontCheck super.algebraic-graphs;
+  algebraic-graphs = markUnbroken (dontCheck super.algebraic-graphs);
   base-compat-batteries = whenGhcjs dontCheck super.base-compat-batteries;
   bound = whenGhcjs dontCheck super.bound;
   brittany = doJailbreak super.brittany;
