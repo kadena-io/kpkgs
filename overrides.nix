@@ -499,7 +499,7 @@ in with pkgs.haskell.lib; {
   chainweb-api = doJailbreak (self.callCabal2nix "chainweb-api" repos.chainweb-api {});
 
   chainweb-miner = self.callCabal2nix "chainweb-miner" repos.chainweb-miner {};
-  pact = addBuildDepend (self.callCabal2nix "pact" repos.pact {}) pkgs.z3;
   kadena-signing-api = self.callCabal2nix "kadena-signing-api" (repos.signing-api + /kadena-signing-api) {};
+  pact = self.callCabal2nix "pact" repos.pact {};
   rosetta = self.callCabal2nix "rosetta" repos.rosetta {};
 }
