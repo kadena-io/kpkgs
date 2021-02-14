@@ -438,6 +438,12 @@ in with pkgs.haskell.lib; {
     sha256 = "1mlvs28mv269vd9j9l67i7w7kwzlh1zm5fm7nqdr7pmhqdr27ybn";
   };
 
+  vector = callHackageDirect {
+    pkg = "vector";
+    ver = "0.12.2.0";
+    sha256 = "15pqlfd61rz7wyzjmwkd7fdl87fpjs11dwxppzyiv8m2a1lnsn58";
+  };
+
   # https://github.com/ghcjs/jsaddle/pull/114 widens warp bound
   # tests disabled because webdriver fails to build
   jsaddle-warp = dontCheck (self.callCabal2nix "jsaddle-warp" (pkgs.fetchFromGitHub {
