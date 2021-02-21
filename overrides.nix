@@ -6,7 +6,7 @@ let
     callHackageDirect = args: self.callHackageDirect args {};
 
     repos = {
-      beam = hackGet ./dep/beam;
+      beamSrc = hackGet ./dep/beam;
     };
 
 in with pkgs.haskell.lib; {
@@ -36,7 +36,6 @@ in with pkgs.haskell.lib; {
   extra = whenGhcjs dontCheck super.extra;
   haskeline = guardGhcjs super.haskeline;
   http-date = whenGhcjs dontCheck super.http-date;
-  http-media = whenGhcjs dontCheck super.http-media;
   inspection-testing = guardGhcjs super.inspection-testing;
   intervals = whenGhcjs dontCheck super.intervals;
   iproute = whenGhcjs dontCheck super.iproute;
@@ -76,6 +75,12 @@ in with pkgs.haskell.lib; {
     pkg = "http-api-data";
     ver = "0.4.1";
     sha256 = "0wqji0raiq3snh7yifmv754sg5zjvw2gisgz1d3d0ljib2sw4jiq";
+  });
+
+  http-media = dontCheck (callHackageDirect {
+    pkg = "http-media";
+    ver = "0.7.1.3";
+    sha256 = "04d0f7rmr2z3nkd7l6jbl6iq2f1rc7psqyynrn9287bbv1hfrmqs";
   });
 
   insert-ordered-containers = dontCheck (callHackageDirect {
@@ -427,8 +432,8 @@ in with pkgs.haskell.lib; {
 
   typed-process = callHackageDirect {
     pkg = "typed-process";
-    ver = "0.2.5.0";
-    sha256 = "00jgzcqc6n759547ij7s5bfb08q92sq3kfrbzhh5l1ppz5agv9li";
+    ver = "0.2.6.0";
+    sha256 = "17m2n9ffh88nj32xc00d48phaxav92dxisprc42pipgigq7fzs5s";
   };
 
   unliftio = callHackageDirect {
@@ -454,9 +459,9 @@ in with pkgs.haskell.lib; {
   });
 
   ## chainweb-data ##
-  beam-core = self.callCabal2nix "beam-core" (repos.beam + /beam-core) {};
-  beam-migrate = self.callCabal2nix "beam-migrate" (repos.beam + /beam-migrate) {};
-  beam-postgres = dontCheck (self.callCabal2nix "beam-postgres" (repos.beam + /beam-postgres) {});
+  beam-core = self.callCabal2nix "beam-core" (repos.beamSrc + "/beam-core") {};
+  beam-migrate = self.callCabal2nix "beam-migrate" (repos.beamSrc + "/beam-migrate") {};
+  beam-postgres = dontCheck (self.callCabal2nix "beam-postgres" (repos.beamSrc + "/beam-postgres") {});
 
   # Also used by chainweb-node, but this fork not required
   streaming-events = dontCheck (self.callCabal2nix "streaming-events" (pkgs.fetchFromGitHub {
