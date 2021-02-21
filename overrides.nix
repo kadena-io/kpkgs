@@ -445,8 +445,8 @@ in with pkgs.haskell.lib; {
 
   typed-process = callHackageDirect {
     pkg = "typed-process";
-    ver = "0.2.5.0";
-    sha256 = "00jgzcqc6n759547ij7s5bfb08q92sq3kfrbzhh5l1ppz5agv9li";
+    ver = "0.2.6.0";
+    sha256 = "17m2n9ffh88nj32xc00d48phaxav92dxisprc42pipgigq7fzs5s";
   };
 
   unliftio = callHackageDirect {
@@ -504,7 +504,7 @@ in with pkgs.haskell.lib; {
   chainweb-api = doJailbreak (self.callCabal2nix "chainweb-api" repos.chainweb-api {});
 
   chainweb-miner = self.callCabal2nix "chainweb-miner" repos.chainweb-miner {};
-  kadena-signing-api = self.callCabal2nix "kadena-signing-api" (repos.signing-api + /kadena-signing-api) {};
+  kadena-signing-api = self.callCabal2nix "kadena-signing-api" (repos.signing-api + "/kadena-signing-api") {};
   pact = self.callCabal2nix "pact" repos.pact {};
   rosetta = self.callCabal2nix "rosetta" repos.rosetta {};
 }
