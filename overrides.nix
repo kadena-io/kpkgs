@@ -114,6 +114,12 @@ in with pkgs.haskell.lib; {
     sha256 = "0lcgjxw690hyswqxaghf7z08mx5694l7kijyrsjd42yxswajlplx";
   });
 
+  pact-time = dontCheck (self.callHackageDirect {
+    pkg = "pact-time";
+    ver = "0.2.0.0";
+    sha256 = "1cfn74j6dr4279bil9k0n1wff074sdlz6g1haqyyy38wm5mdd7mr";
+  } {});
+
   # prettyprinter > 1.6.0 breaks binary compatibility of Pact payloads
   # inside Chainweb blocks!
   prettyprinter = dontCheck (callHackageDirect {
