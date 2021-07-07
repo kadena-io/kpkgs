@@ -7,12 +7,6 @@ let
 
     repos = {
       beamSrc = hackGet ./dep/beam;
-      chainweb-api = hackGet ./dep/chainweb-api;
-      chainweb-miner = hackGet ./dep/chainweb-miner;
-      chainweb-node = hackGet ./dep/chainweb-node;
-      pact = hackGet ./dep/pact;
-      signing-api = hackGet ./dep/signing-api;
-      rosetta = hackGet ./dep/rosetta;
     };
 
 in with pkgs.haskell.lib; {
@@ -228,13 +222,6 @@ in with pkgs.haskell.lib; {
   });
 
   ## Chainweb Overrides ##
-  chainweb-storage = dontCheck (self.callCabal2nix "chainweb-storage" (pkgs.fetchFromGitHub {
-    owner = "kadena-io";
-    repo = "chainweb-storage";
-    rev = "07e7eb7596c7105aee42dbdb6edd10e3f23c0d7e";
-    sha256 = "0piqlj9i858vmvmiis9i8k6cz7fh78zfaj47fsq5cs9v7zpj234z";
-  }) {});
-
   configuration-tools = dontCheck (callHackageDirect {
     pkg = "configuration-tools";
     ver = "0.5.0";
@@ -496,15 +483,4 @@ in with pkgs.haskell.lib; {
     ver = "3.5.3";
     sha256 = "0fm5bhcxbgx14mb5ccx60vdmy0zl9hci9mh15zcqdqnspl67z67j";
   });
-
-  ## kadena packages ##
-  chainweb = dontCheck (self.callCabal2nix "chainweb" repos.chainweb-node {});
-
-  # This doJailbreak is temporary until we update chainweb-api
-  chainweb-api = doJailbreak (self.callCabal2nix "chainweb-api" repos.chainweb-api {});
-
-  chainweb-miner = self.callCabal2nix "chainweb-miner" repos.chainweb-miner {};
-  kadena-signing-api = self.callCabal2nix "kadena-signing-api" (repos.signing-api + "/kadena-signing-api") {};
-  pact = self.callCabal2nix "pact" repos.pact {};
-  rosetta = self.callCabal2nix "rosetta" repos.rosetta {};
 }
