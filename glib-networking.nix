@@ -1,3 +1,5 @@
+# NOTE: This file is taken directly from nixpkgs commit: 3ac85d55b4d863d5a78e8bae3b238a3dd6614363 at
+#  > nixpkgs/pkgs/development/libraries/glib-networking/default.nix
 { stdenv, fetchurl, meson, ninja, pkgconfig, glib, gettext, python3, gnutls, p11-kit, libproxy, gnome3
 , gsettings-desktop-schemas }:
 
