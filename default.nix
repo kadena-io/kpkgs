@@ -3,9 +3,9 @@
 
 let
 
-glib-networking-overlay = self: super: {
-  glib-networking = self.callPackage ./glib-networking.nix {};
-};
+# glib-networking-overlay = self: super: {
+#   glib-networking = self.callPackage ./glib-networking.nix {};
+# };
 
 z3 = self: super: {
   z3 = super.z3.overrideAttrs (drv: {
@@ -24,7 +24,7 @@ z3 = self: super: {
 haskellOverlay = import ./overrides.nix { inherit (rp) hackGet; };
 
 reflex-platform-func = args: import ./dep/reflex-platform (args // {
-  nixpkgsOverlays = (args.nixpkgsOverlays or []) ++ [z3 glib-networking-overlay];
+  nixpkgsOverlays = (args.nixpkgsOverlays or []) ++ [z3];
   haskellOverlays = (args.haskellOverlays or []) ++ [haskellOverlay];
 });
 
