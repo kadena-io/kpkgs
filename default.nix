@@ -25,7 +25,7 @@ haskellOverlay = import ./overrides.nix { inherit (rp) hackGet; };
 
 reflex-platform-func = args: import ./dep/reflex-platform (args // {
   nixpkgsOverlays = (args.nixpkgsOverlays or []) ++ [z3];
-  haskellOverlays = (args.haskellOverlays or []) ++ [haskellOverlay];
+  # haskellOverlays = (args.haskellOverlays or []) ++ [haskellOverlay];
 });
 
 rp = reflex-platform-func {};
