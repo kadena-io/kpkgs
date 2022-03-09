@@ -217,8 +217,8 @@ in with pkgs.haskell.lib; {
 
   unordered-containers = dontCheck (callHackageDirect {
     pkg = "unordered-containers";
-    ver = "0.2.10.0";
-    sha256 = "16xpq9qb1ipl0mb86rlb3bx29xvgcwirpm2ds0ynxjh0ylwzavkk";
+    ver = "0.2.15.0";
+    sha256 = "101fjg7jsa0mw57clpjwc2vgrdkrnn0vmf4xgagja21ynwwbl2b5";
   });
 
   hspec-golden = dontCheck (callHackageDirect {
