@@ -7,6 +7,12 @@ glib-networking-overlay = self: super: {
   glib-networking = self.callPackage ./glib-networking.nix {};
 };
 
+nginx-overlay =  self: super: {
+    nginx-1-22 = (import (builtins.fetchTarball {
+      url = https://github.com/NixOS/nixpkgs/archive/dbb62c34bbb5cdf05f1aeab07638b24b0824d605.tar.gz;
+      sha256 = "0v9c7j1ay2wk01mcfbc621f5n11bvl26018k3bc3h8wdssppm9ra";
+    }) {}).nginx;
+  };
 z3 = self: super: {
   z3 = super.z3.overrideAttrs (drv: {
     name = "z3-4.8.8";
@@ -24,7 +30,7 @@ z3 = self: super: {
 haskellOverlay = import ./overrides.nix { inherit (rp) hackGet; };
 
 reflex-platform-func = args: import ./dep/reflex-platform (args // {
-  nixpkgsOverlays = (args.nixpkgsOverlays or []) ++ [z3 glib-networking-overlay];
+  nixpkgsOverlays = (args.nixpkgsOverlays or []) ++ [z3 glib-networking-overlay nginx-overlay];
   haskellOverlays = (args.haskellOverlays or []) ++ [haskellOverlay];
 });
 
