@@ -35,6 +35,7 @@ in with pkgs.haskell.lib; {
   bytes = whenGhcjs dontCheck super.bytes;
   extra = whenGhcjs dontCheck super.extra;
   haskeline = guardGhcjs super.haskeline;
+  hostaddress = doJailbreak (enableCabalFlag (enableCabalFlag (whenGhcjs dontCheck super.hostaddress) "with-configuration-tools") "with-aeson");
   http-date = whenGhcjs dontCheck super.http-date;
   inspection-testing = guardGhcjs super.inspection-testing;
   intervals = whenGhcjs dontCheck super.intervals;
