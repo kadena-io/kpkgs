@@ -29,7 +29,7 @@ in with pkgs.haskell.lib; {
 #
 #  algebraic-graphs = markUnbroken (dontCheck super.algebraic-graphs);
 #  base-compat-batteries = whenGhcjs dontCheck super.base-compat-batteries;
-#  bound = whenGhcjs dontCheck super.bound;
+# bound = whenGhcjs dontCheck super.bound;
 #  brittany = doJailbreak super.brittany;
 #  bsb-http-chunked = whenGhcjs dontCheck super.bsb-http-chunked;
 #  bytes = whenGhcjs dontCheck super.bytes;
@@ -77,11 +77,11 @@ in with pkgs.haskell.lib; {
 #    sha256 = "0wqji0raiq3snh7yifmv754sg5zjvw2gisgz1d3d0ljib2sw4jiq";
 #  });
 #
-#  http-media = dontCheck (callHackageDirect {
-#    pkg = "http-media";
-#    ver = "0.7.1.3";
-#    sha256 = "04d0f7rmr2z3nkd7l6jbl6iq2f1rc7psqyynrn9287bbv1hfrmqs";
-#  });
+# http-media = dontCheck (callHackageDirect {
+#   pkg = "http-media";
+#   ver = "0.8.0.0";
+#   sha256 = "080xkljq1iq0i8wagg8kbzbp523p2awa98wpn9i4ph1dq8y8346y";
+# });
 #
 #  insert-ordered-containers = dontCheck (callHackageDirect {
 #    pkg = "insert-ordered-containers";
@@ -153,29 +153,29 @@ in with pkgs.haskell.lib; {
 #        sha256 = "1kjn5wgwgxdw2xk32d645v3ss2a70v3bzrihjdr2wbj2l4ydcah1";
 #      });
 #
-#  servant = dontCheck (callHackageDirect {
-#    pkg = "servant";
-#    ver = "0.16.2";
-#    sha256 = "1a83fdcwnlkmyc6fqsrfd26izcgk1jgpdgyqma3l897cnnr62frs";
-#  });
-#
-#  servant-client = dontCheck (callHackageDirect {
-#    pkg = "servant-client";
-#    ver = "0.16.0.1";
-#    sha256 = "1236sldcgvk2zj20cxib9yxrdxz7d1a83jfdnn9mxa272srfq9a9";
-#  });
-#
-#  servant-client-core = dontCheck (callHackageDirect {
-#    pkg = "servant-client-core";
-#    ver = "0.16";
-#    sha256 = "0panxplcjslsvqxvsabn2fy0fhcqmmr0dqj51hk7bk7yyvgwxklf";
-#  });
-#
-#  servant-server = dontCheck (callHackageDirect {
-#    pkg = "servant-server";
-#    ver = "0.16.2";
-#    sha256 = "1klcszpfqy1vn3q1wbqxjghfyddw8wbg4f0ggllqw8qx2f5zp5y1";
-#  });
+servant = dontCheck (callHackageDirect {
+  pkg = "servant";
+  ver = "0.19.1";
+  sha256 = "1bb06s6b6wfd3il5jc04h0qlg7w4260kqd05y7jd8x70h1hx8nm7";
+});
+
+servant-client = dontCheck (callHackageDirect {
+  pkg = "servant-client";
+  ver = "0.19";
+  sha256 = "1l0yjal6piigx7makvg8xgn1gz90fjr8kflsaf8ilkvlfrglfqmz";
+});
+
+servant-client-core = dontCheck (callHackageDirect {
+  pkg = "servant-client-core";
+  ver = "0.19";
+  sha256 = "0z20rmavxajq2fv7889x17gym4c7hkllmp5xzmw25c9pcjkq96zx";
+});
+
+servant-server = dontCheck (callHackageDirect {
+  pkg = "servant-server";
+  ver = "0.19.2";
+  sha256 = "18gb42ym5q34v7ny0xs0mlwf9z4n6jk63fsacw124039b8yami8w";
+});
 #
 #  servant-swagger = dontCheck (callHackageDirect {
 #    pkg = "servant-swagger";
