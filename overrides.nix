@@ -43,21 +43,57 @@ in with pkgs.haskell.lib; {
     sha256 = "14g2qax1vc7q4g78fa562dviqvcd0l52kd5jmgv90g3g3ci15bnl";
   } {});
 
+  hashable = dontCheck (self.callHackageDirect {
+    pkg = "hashable";
+    ver = "1.3.2.0";
+    sha256 = "1njk809laavfw8cb45azin83ir8f34fzdgf5p3fykgd4vi04vjv8";
+  } {});
+
+  OneTuple = dontCheck (self.callHackageDirect {
+    pkg = "OneTuple";
+    ver = "0.3";
+    sha256 = "1xs5zmg1dq815gbb35khbj6jp64f7zgk1hfy8pyf7srm22cjd2dz";
+  } {});
+
+  th-abstraction = dontCheck (self.callHackageDirect {
+    pkg = "th-abstraction";
+    ver = "0.4.5.0";
+    sha256 = "19nh7a9b4yif6sijp6xns6xlxcr1mcyrqx3cfbp5bdm7mkbda7a9";
+  } {});
+
+  microlens-th= dontCheck (self.callHackageDirect {
+    pkg = "microlens-th";
+    ver = "0.4.3.7";
+    sha256 = "0b5ipkfy5dh4j87x6d14as6ch2wl93h74i2vw215b22nd1hf43fm";
+  } {});
+
 #  Glob = whenGhcjs dontCheck super.Glob;
 #
-#  aeson = if self.ghc.isGhcjs or false
-#    then dontCheck (self.callCabal2nix "aeson" (pkgs.fetchFromGitHub {
-#        owner = "obsidiansystems";
-#        repo = "aeson";
-#        rev = "d6288c431a477f9a6e93aa80454a9e1712127548"; # branch v1450-text-jsstring containing (ToJSVal Value) instance and other fixes
-#        sha256 = "102hj9b42z1h9p634g9226nvs756djwadrkz9yrb15na671f2xf4";
-#      }) {})
-#    else enableCabalFlag (dontCheck (callHackageDirect {
-#        pkg = "aeson";
-#        ver = "1.4.5.0";
-#        sha256 = "0imcy5kkgrdrdv7zkhkjvwpdp4sms5jba708xsap1vl9c2s63n5a";
-#      })) "cffi";
-#
+# aeson = if self.ghc.isGhcjs or false
+#   then dontCheck (self.callCabal2nix "aeson" (pkgs.fetchFromGitHub {
+#       owner = "obsidiansystems";
+#       repo = "aeson";
+#       rev = "d6288c431a477f9a6e93aa80454a9e1712127548"; # branch v1450-text-jsstring containing (ToJSVal Value) instance and other fixes
+#       sha256 = "102hj9b42z1h9p634g9226nvs756djwadrkz9yrb15na671f2xf4";
+#     }) {})
+#   else enableCabalFlag (dontCheck (callHackageDirect {
+#       pkg = "aeson";
+#       ver = "1.4.5.0";
+#       sha256 = "0imcy5kkgrdrdv7zkhkjvwpdp4sms5jba708xsap1vl9c2s63n5a";
+#     })) "cffi";
+aeson = if self.ghc.isGhcjs or false
+  then dontCheck (self.callCabal2nix "aeson" (pkgs.fetchFromGitHub {
+      owner = "obsidiansystems";
+      repo = "aeson";
+      rev = "afa2d0b8a3c5bb9ea533929e4c77dd01e8f1fc27"; # branch v1541-text-jsstring containing (ToJSVal Value) instance and other fixes
+      sha256 = "0nsmnc5npkig9mhpj0j7yqydp0nkqq370f2lqskgj5z16d4vc0vm";
+    }) {})
+  else enableCabalFlag (dontCheck (callHackageDirect {
+      pkg = "aeson";
+      ver = "1.5.4.1";
+      sha256 = "1kwhxfxff2jrrlrqmr9m846g0lq2iin32hwl5i8x7wqhscx5swh5";
+    })) "cffi";
+
 #  ## Pact Overrides ##
 #
 #  algebraic-graphs = markUnbroken (dontCheck super.algebraic-graphs);
@@ -98,11 +134,11 @@ in with pkgs.haskell.lib; {
 #    sha256 = "0h9qwd4gw5n8j8is9kn9mll32c8v6z1dv9mp4fmkmz7k5zi4asjq";
 #  });
 #
-#  hspec-megaparsec = dontCheck (callHackageDirect {
-#    pkg = "hspec-megaparsec";
-#    ver = "2.2.0";
-#    sha256 = "0fclj5snkg4r18zjpbgp4ai1lzxkvnrjh0194pi9l4s9g277ranc";
-#  });
+hspec-megaparsec = dontCheck (callHackageDirect {
+  pkg = "hspec-megaparsec";
+  ver = "2.2.0";
+  sha256 = "0fclj5snkg4r18zjpbgp4ai1lzxkvnrjh0194pi9l4s9g277ranc";
+});
 #
 #  http-api-data = dontCheck (callHackageDirect {
 #    pkg = "http-api-data";
@@ -122,24 +158,24 @@ in with pkgs.haskell.lib; {
 #    sha256 = "1md93iaxsr4djx1i47zjwddd7pd4j3hzphj7495q7lz7mn8ifz4w";
 #  });
 #
-#  megaparsec = dontCheck (callHackageDirect {
-#    pkg = "megaparsec";
-#    ver = "9.0.0";
-#    sha256 = "03kqcfpsmi5l4mr6lsmlpks2mp9prf9yy97mmrkclwqpxybdjx2l";
-#  });
-#
-#  modern-uri = dontCheck (callHackageDirect {
-#    pkg = "modern-uri";
-#    ver = "0.3.3.0";
-#    sha256 = "1z1ad9n5h4pjgfbb38fanysrjvf8dhb8s2vfbb0b8w7jmn9rsc2x";
-#  });
-#
-#  # neat-interpolation >= 0.4 breaks Chainweb genesis blocks!
-#  neat-interpolation = dontCheck (callHackageDirect {
-#    pkg = "neat-interpolation";
-#    ver = "0.5.1.2";
-#    sha256 = "0lcgjxw690hyswqxaghf7z08mx5694l7kijyrsjd42yxswajlplx";
-#  });
+megaparsec = dontCheck (callHackageDirect {
+  pkg = "megaparsec";
+  ver = "9.0.0";
+  sha256 = "03kqcfpsmi5l4mr6lsmlpks2mp9prf9yy97mmrkclwqpxybdjx2l";
+});
+
+modern-uri = dontCheck (callHackageDirect {
+  pkg = "modern-uri";
+  ver = "0.3.3.0";
+  sha256 = "1z1ad9n5h4pjgfbb38fanysrjvf8dhb8s2vfbb0b8w7jmn9rsc2x";
+});
+
+# neat-interpolation >= 0.4 breaks Chainweb genesis blocks!
+neat-interpolation = dontCheck (callHackageDirect {
+  pkg = "neat-interpolation";
+  ver = "0.5.1.2";
+  sha256 = "0lcgjxw690hyswqxaghf7z08mx5694l7kijyrsjd42yxswajlplx";
+});
 #
 #  pact-time = dontCheck (self.callHackageDirect {
 #    pkg = "pact-time";
@@ -149,11 +185,11 @@ in with pkgs.haskell.lib; {
 #
 #  # prettyprinter > 1.6.0 breaks binary compatibility of Pact payloads
 #  # inside Chainweb blocks!
-#  prettyprinter = dontCheck (callHackageDirect {
-#    pkg = "prettyprinter";
-#    ver = "1.6.0";
-#    sha256 = "0f8wqaj3cv3yra938afqf62wrvq20yv9jd048miw5zrfavw824aa";
-#  });
+prettyprinter = dontCheck (callHackageDirect {
+  pkg = "prettyprinter";
+  ver = "1.6.0";
+  sha256 = "0f8wqaj3cv3yra938afqf62wrvq20yv9jd048miw5zrfavw824aa";
+});
 #
 #  semialign = callHackageDirect {
 #    pkg = "semialign";
@@ -182,8 +218,8 @@ in with pkgs.haskell.lib; {
 #
 servant = dontCheck (callHackageDirect {
   pkg = "servant";
-  ver = "0.19.1";
-  sha256 = "1bb06s6b6wfd3il5jc04h0qlg7w4260kqd05y7jd8x70h1hx8nm7";
+  ver = "0.16.2";
+  sha256 = "1a83fdcwnlkmyc6fqsrfd26izcgk1jgpdgyqma3l897cnnr62frs";
 });
 
 servant-client = dontCheck (callHackageDirect {
