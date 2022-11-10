@@ -10,6 +10,39 @@ let
     };
 
 in with pkgs.haskell.lib; {
+  happy = dontCheck super.happy;
+
+  direct-sqlite = dontCheck (self.callHackageDirect {
+    pkg = "direct-sqlite";
+    ver = "2.3.27";
+    sha256 = "0w8wj3210h08qlws40qhidkscgsil3635zk83kdlj929rbd8khip";
+  } {});
+
+  pact-time = dontCheck (self.callHackageDirect {
+    pkg = "pact-time";
+    ver = "0.2.0.0";
+    sha256 = "1cfn74j6dr4279bil9k0n1wff074sdlz6g1haqyyy38wm5mdd7mr";
+  } {});
+
+  # sbv requires this even though it is not used in the build (and the hash is invalid)
+  tasty-bench = dontCheck (self.callHackageDirect {
+    pkg = "tasty-bench";
+    ver = "0.3.1";
+    sha256 = "0000000000000000000000000000000000000000000000000000";
+  } {});
+
+  libBF = doJailbreak (dontCheck (self.callHackageDirect {
+    pkg = "libBF";
+    ver = "0.6.3";
+    sha256 = "0j0i39jb389rnrkkw2xqz10471afxys79nf31hhlqr4fk6ddhjf7";
+  } {}));
+
+  sbv = dontCheck (self.callHackageDirect {
+    pkg = "sbv";
+    ver = "9.0";
+    sha256 = "14g2qax1vc7q4g78fa562dviqvcd0l52kd5jmgv90g3g3ci15bnl";
+  } {});
+
 #  Glob = whenGhcjs dontCheck super.Glob;
 #
 #  aeson = if self.ghc.isGhcjs or false
@@ -120,12 +153,6 @@ in with pkgs.haskell.lib; {
 #    pkg = "prettyprinter";
 #    ver = "1.6.0";
 #    sha256 = "0f8wqaj3cv3yra938afqf62wrvq20yv9jd048miw5zrfavw824aa";
-#  });
-#
-#  sbv = dontCheck (callHackageDirect {
-#    pkg = "sbv";
-#    ver = "8.8";
-#    sha256 = "0sbl7xczk7qn658j4zcp7wg0x9gxy07wqxv7xnjhzrjx066qjix1";
 #  });
 #
 #  semialign = callHackageDirect {
