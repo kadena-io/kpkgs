@@ -43,11 +43,17 @@ in with pkgs.haskell.lib; {
     sha256 = "14g2qax1vc7q4g78fa562dviqvcd0l52kd5jmgv90g3g3ci15bnl";
   } {});
 
-  hashable = dontCheck (self.callHackageDirect {
-    pkg = "hashable";
-    ver = "1.3.2.0";
-    sha256 = "1njk809laavfw8cb45azin83ir8f34fzdgf5p3fykgd4vi04vjv8";
-  } {});
+  # async = doJailbreak (dontCheck (self.callHackageDirect {
+  #   pkg = "async";
+  #   ver = "2.2.4";
+  #   sha256 = "0wjyyqvlvvq75ywpr86myib34z29k7i32rnwcqpwfi0d3p7nx055";
+  # } {}));
+
+  # hashable = doJailbreak (dontCheck (self.callHackageDirect {
+  #   pkg = "hashable";
+  #   ver = "1.3.0.0";
+  #   sha256 = "10w1a9175zxy11awir48axanyy96llihk1dnfgypn9qwdnqd9xnx";
+  # } {}));
 
   OneTuple = dontCheck (self.callHackageDirect {
     pkg = "OneTuple";
@@ -61,11 +67,71 @@ in with pkgs.haskell.lib; {
     sha256 = "19nh7a9b4yif6sijp6xns6xlxcr1mcyrqx3cfbp5bdm7mkbda7a9";
   } {});
 
-  microlens-th= dontCheck (self.callHackageDirect {
+  microlens-th = dontCheck (self.callHackageDirect {
     pkg = "microlens-th";
     ver = "0.4.3.7";
     sha256 = "0b5ipkfy5dh4j87x6d14as6ch2wl93h74i2vw215b22nd1hf43fm";
   } {});
+
+  jose = dontCheck (self.callHackageDirect {
+    pkg = "jose";
+    ver = "0.8.3.1";
+    sha256 = "0ny1dbh41iq1d88iiy1zjyc67b8pyd3jw4d3h3kly42scx2m0bf9";
+  } {});
+
+  text-short = doJailbreak (dontCheck (self.callHackageDirect {
+    pkg = "text-short";
+    ver = "0.1.5";
+    sha256 = "0fyyp9r1qsk16kcdbqm3r4yk5nm22sd4vgzg76cyszbj0cypfvaj";
+  } {}));
+
+  yaml = dontCheck (self.callHackageDirect {
+    pkg = "yaml";
+    ver = "0.11.8.0";
+    sha256 = "07jy41hyv3cql5s6pqwz7s9dxldw8gq139lgx5f3pmm3rj50irjx";
+  } {});
+
+  # text = dontCheck (self.callHackageDirect {
+  #   pkg = "text";
+  #   ver = "1.2.4.1";
+  #   sha256 = "1mzp5c4yk5ja5w7rb606s5sgc11g475yfr7gxjjiq5qjcwrww64y";
+  # } {});
+
+  quickcheck-instances = doJailbreak (dontCheck (self.callHackageDirect {
+    pkg = "quickcheck-instances";
+    ver = "0.3.28";
+    sha256 = "1617j8657n9ya01pdm9ih1csgw0a37djmfnk0qzskyf9gwxm0zp1";
+  } {}));
+  
+  # base64-bytestring = doJailbreak (dontCheck (self.callHackageDirect {
+  #   pkg = "base64-bytestring";
+  #   ver = "1.2.1.0";
+  #   sha256 = "10gyx24hmlqlvyn7z3kr37w36fkfb6lm4v27sxi233gcfvssxv9r";
+  # } {}));
+
+  base64-bytestring = doJailbreak (dontCheck (self.callHackageDirect {
+    pkg = "base64-bytestring";
+    ver = "1.1.0.0";
+    sha256 = "1nwdd2vfhx2pfz5xzn75rq7bmdipab2kp76zwzgrv9dzqwn2m8wf";
+  } {}));
+
+  cborg = doJailbreak (dontCheck (self.callHackageDirect {
+    pkg = "cborg";
+    ver = "0.2.8.0";
+    sha256 = "184db0cbvpqx53cf2n1801xj72549w32rvylb0k3vr6kr7kh780p";
+  } {}));
+
+  jsaddle = dontCheck (self.callHackageDirect {
+    pkg = "jsaddle";
+    ver = "0.9.8.2";
+    sha256 = "0xnhzdwwc43632ag1p29f74qqx0ndz5xkp5sr23wpshja7bvzkxj";
+  } {});
+
+  # jsaddle-warp= dontCheck (self.callHackageDirect {
+  #   pkg = "jsaddle-warp";
+  #   ver = "0.9.8.2";
+  #   sha256 = "0xxxxxxxxxxxxxxxxxxxxs6ch2wl93h74i2vw215b22nd1hf43fm";
+  # } {});
 
 #  Glob = whenGhcjs dontCheck super.Glob;
 #
@@ -113,7 +179,7 @@ aeson = if self.ghc.isGhcjs or false
 #  prettyprinter-convert-ansi-wl-pprint = whenGhcjs dontCheck super.prettyprinter-convert-ansi-wl-pprint;
 #  tdigest = whenGhcjs dontCheck super.tdigest;
 #  temporary = whenGhcjs dontCheck super.temporary;
-#  text-short = whenGhcjs dontCheck super.text-short; # either hang or take a long time
+# text-short = whenGhcjs dontCheck super.text-short; # either hang or take a long time
 #  unix-time = whenGhcjs dontCheck super.unix-time;
 
 #  base-orphans = dontCheck (callHackageDirect {
@@ -134,18 +200,36 @@ aeson = if self.ghc.isGhcjs or false
 #    sha256 = "0h9qwd4gw5n8j8is9kn9mll32c8v6z1dv9mp4fmkmz7k5zi4asjq";
 #  });
 #
+websockets = dontCheck (callHackageDirect {
+  pkg = "websockets";
+  ver = "0.12.7.3";
+  sha256 = "0kyf82v1df9kqk7bmy9ib6i1mj6djvgbly5xxmjdcg150z2kj1nd";
+});
+
 hspec-megaparsec = dontCheck (callHackageDirect {
   pkg = "hspec-megaparsec";
   ver = "2.2.0";
   sha256 = "0fclj5snkg4r18zjpbgp4ai1lzxkvnrjh0194pi9l4s9g277ranc";
 });
-#
-#  http-api-data = dontCheck (callHackageDirect {
-#    pkg = "http-api-data";
-#    ver = "0.4.1";
-#    sha256 = "0wqji0raiq3snh7yifmv754sg5zjvw2gisgz1d3d0ljib2sw4jiq";
-#  });
-#
+
+http-api-data = doJailbreak (dontCheck (callHackageDirect {
+  pkg = "http-api-data";
+  ver = "0.4.3";
+  sha256 = "049zh2y24hjxsp8pmlyn944grahj001j9qpcx1kxsi6a0c4s7agk";
+}));
+
+attoparsec = doJailbreak (dontCheck (callHackageDirect {
+  pkg = "attoparsec";
+  ver = "0.13.2.5";
+  sha256 = "0qwshlgr85mk73mp2j3bnvg2w30gmsqgn13id0baqwylg797hhmi";
+}));
+
+attoparsec-iso8601 = dontCheck (callHackageDirect {
+  pkg = "attoparsec-iso8601";
+  ver = "1.0.2.0";
+  sha256 = "108j8wh25k1ws5ggwp05pl4jlzx2scj0dzmisxrsc8cv70rqm114";
+});
+
 # http-media = dontCheck (callHackageDirect {
 #   pkg = "http-media";
 #   ver = "0.8.0.0";
@@ -218,8 +302,8 @@ prettyprinter = dontCheck (callHackageDirect {
 #
 servant = dontCheck (callHackageDirect {
   pkg = "servant";
-  ver = "0.16.2";
-  sha256 = "1a83fdcwnlkmyc6fqsrfd26izcgk1jgpdgyqma3l897cnnr62frs";
+  ver = "0.19";
+  sha256 = "0i268m73p54fhzx9f4zbk3dx4mpj07vw3hrzrlxn4hizb885sdr8";
 });
 
 servant-client = dontCheck (callHackageDirect {
@@ -236,8 +320,8 @@ servant-client-core = dontCheck (callHackageDirect {
 
 servant-server = dontCheck (callHackageDirect {
   pkg = "servant-server";
-  ver = "0.19.2";
-  sha256 = "18gb42ym5q34v7ny0xs0mlwf9z4n6jk63fsacw124039b8yami8w";
+  ver = "0.19";
+  sha256 = "10flb630f1anrpwd993bmcr94iwj00jbbsr6xppa1s5537wz7hlx";
 });
 #
 #  servant-swagger = dontCheck (callHackageDirect {
@@ -513,12 +597,12 @@ servant-server = dontCheck (callHackageDirect {
 #
 #  # https://github.com/ghcjs/jsaddle/pull/114 widens warp bound
 #  # tests disabled because webdriver fails to build
-#  jsaddle-warp = dontCheck (self.callCabal2nix "jsaddle-warp" (pkgs.fetchFromGitHub {
-#    owner = "obsidiansystems";
-#    repo = "jsaddle";
-#    rev = "86b166033186c1724d4d52eeaf0935f0f29fe1ca";
-#    sha256 = "1m1xxy4l9ii91k1k504qkxh9k1ybprm1m66mkb9dqlwcpyhcccmv";
-#  } + /jsaddle-warp) {});
+# jsaddle-warp = dontCheck (self.callCabal2nix "jsaddle-warp" (pkgs.fetchFromGitHub {
+#   owner = "obsidiansystems";
+#   repo = "jsaddle";
+#   rev = "86b166033186c1724d4d52eeaf0935f0f29fe1ca";
+#   sha256 = "1m1xxy4l9ii91k1k504qkxh9k1ybprm1m66mkb9dqlwcpyhcccmv";
+# } + /jsaddle-warp) {});
 #
 #  ## chainweb-api ##
 #  blake2 = dontCheck (callHackageDirect {
