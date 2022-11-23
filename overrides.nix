@@ -37,6 +37,12 @@ in with pkgs.haskell.lib; {
     sha256 = "0j0i39jb389rnrkkw2xqz10471afxys79nf31hhlqr4fk6ddhjf7";
   } {}));
 
+  hnix = doJailbreak (dontCheck (overrideCabal (self.callHackageDirect {
+    pkg = "hnix";
+    ver = "0.12.0.1";
+    sha256 = "19kqvvrz12g63d5xvw35pchqrgy30hyvjypmwkbnfz358881hvg0";
+  } { }) (drv: { libraryHaskellDepends = drv.libraryHaskellDepends ++ [ super.prettyprinter ]; })));
+
   sbv = dontCheck (self.callHackageDirect {
     pkg = "sbv";
     ver = "9.0";
@@ -99,8 +105,8 @@ in with pkgs.haskell.lib; {
 
   quickcheck-instances = doJailbreak (dontCheck (self.callHackageDirect {
     pkg = "quickcheck-instances";
-    ver = "0.3.28";
-    sha256 = "1617j8657n9ya01pdm9ih1csgw0a37djmfnk0qzskyf9gwxm0zp1";
+    ver = "0.3.25.2";
+    sha256 = "18hr1cmgghsmpxjlkc17r2rmm8n9n91ld5y5srysy7fbl0g706px";
   } {}));
   
   # base64-bytestring = doJailbreak (dontCheck (self.callHackageDirect {
@@ -111,8 +117,8 @@ in with pkgs.haskell.lib; {
 
   base64-bytestring = doJailbreak (dontCheck (self.callHackageDirect {
     pkg = "base64-bytestring";
-    ver = "1.1.0.0";
-    sha256 = "1nwdd2vfhx2pfz5xzn75rq7bmdipab2kp76zwzgrv9dzqwn2m8wf";
+    ver = "1.0.0.2";
+    sha256 = "1xhlkf7wp15g986nx9npkys1gwrg3mj1jwr26s675kr8jdv9rbfj";
   } {}));
 
   cborg = doJailbreak (dontCheck (self.callHackageDirect {
@@ -121,11 +127,11 @@ in with pkgs.haskell.lib; {
     sha256 = "184db0cbvpqx53cf2n1801xj72549w32rvylb0k3vr6kr7kh780p";
   } {}));
 
-  jsaddle = dontCheck (self.callHackageDirect {
+  jsaddle = doJailbreak (dontCheck (self.callHackageDirect {
     pkg = "jsaddle";
     ver = "0.9.8.2";
     sha256 = "0xnhzdwwc43632ag1p29f74qqx0ndz5xkp5sr23wpshja7bvzkxj";
-  } {});
+  } {}));
 
   # jsaddle-warp= dontCheck (self.callHackageDirect {
   #   pkg = "jsaddle-warp";
