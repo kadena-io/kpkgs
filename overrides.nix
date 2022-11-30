@@ -43,6 +43,18 @@ in with pkgs.haskell.lib; {
     sha256 = "19kqvvrz12g63d5xvw35pchqrgy30hyvjypmwkbnfz358881hvg0";
   } { }) (drv: { libraryHaskellDepends = drv.libraryHaskellDepends ++ [ super.prettyprinter ]; })));
 
+  system-locale = doJailbreak (dontCheck (self.callHackageDirect {
+    pkg = "system-locale";
+    ver = "0.3.0.0";
+    sha256 = "0s5nb0pizqz7hfdfqr2bnkxamaqhk3ncpja2rv55ddwq64k8hvg2";
+  } {}));
+
+  generic-deriving = doJailbreak (dontCheck (self.callHackageDirect {
+    pkg = "generic-deriving";
+    ver = "1.13.1";
+    sha256 = "0wznbibpchkl07alhzc9y69xjjcg5hqb455s31fz4b16l0m90ajx";
+  } {}));
+
   sbv = dontCheck (self.callHackageDirect {
     pkg = "sbv";
     ver = "9.0";
@@ -170,7 +182,7 @@ aeson = if self.ghc.isGhcjs or false
 #
 #  algebraic-graphs = markUnbroken (dontCheck super.algebraic-graphs);
 #  base-compat-batteries = whenGhcjs dontCheck super.base-compat-batteries;
-# bound = whenGhcjs dontCheck super.bound;
+bound = whenGhcjs dontCheck super.bound;
 #  brittany = doJailbreak super.brittany;
 #  bsb-http-chunked = whenGhcjs dontCheck super.bsb-http-chunked;
 #  bytes = whenGhcjs dontCheck super.bytes;
@@ -254,11 +266,11 @@ megaparsec = dontCheck (callHackageDirect {
   sha256 = "03kqcfpsmi5l4mr6lsmlpks2mp9prf9yy97mmrkclwqpxybdjx2l";
 });
 
-modern-uri = dontCheck (callHackageDirect {
+modern-uri = doJailbreak (dontCheck (callHackageDirect {
   pkg = "modern-uri";
   ver = "0.3.3.0";
   sha256 = "1z1ad9n5h4pjgfbb38fanysrjvf8dhb8s2vfbb0b8w7jmn9rsc2x";
-});
+}));
 
 # neat-interpolation >= 0.4 breaks Chainweb genesis blocks!
 neat-interpolation = dontCheck (callHackageDirect {
